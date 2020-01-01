@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e2fcc908-e1cd-435a-9ad9-249c4d184ebd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/RoomController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/TypeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/TypeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/RoomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/ServiceTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/ServiceTemplate.java" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\Program Files\Maven\apache-maven-3.6.2\repository" />
+        <option name="mavenHome" value="D:/Program Files/Maven/apache-maven-3.6.2" />
+        <option name="userSettingsFile" value="D:\Program Files\Maven\apache-maven-3.6.2\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1VQtciram3lFB5B8zshCqOPYJ5h" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/util" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Java_project\idea\hotel-server\src\main\java\com\csr\hotelserver\util" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="HotelServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="hotel-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.csr.hotelserver.HotelServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e2fcc908-e1cd-435a-9ad9-249c4d184ebd" name="Default Changelist" comment="" />
+      <created>1577197227907</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1577197227907</updated>
+      <workItem from="1577197232312" duration="5569000" />
+      <workItem from="1577279975720" duration="10475000" />
+      <workItem from="1577325675521" duration="28720000" />
+      <workItem from="1577408954325" duration="31079000" />
+      <workItem from="1577500649869" duration="15846000" />
+      <workItem from="1577589112832" duration="9809000" />
+      <workItem from="1577623269910" duration="7807000" />
+      <workItem from="1577669108365" duration="13210000" />
+      <workItem from="1577857346215" duration="14143000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

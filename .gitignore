@@ -1,0 +1,7 @@
+*.doc*
+
+vue-element-admin
+
+*/target
+
+*/node_modules
