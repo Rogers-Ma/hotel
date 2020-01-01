@@ -1,0 +1,15 @@
+server:
+  port: 8088
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hotel?characterEncoding=utf8&serverTimezone=GMT%2b8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    database: mysql
+    show-sql: true
+  devtools:
+    restart:
+      enabled: true
