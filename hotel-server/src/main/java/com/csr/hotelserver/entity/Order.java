@@ -49,7 +49,6 @@ public class Order {
     @Column(name = "price")
     private Double price;
 
-    @NotNull(message = "押金不能为空")
-    @Column(name = "deposit")
-    private Double deposit;
+    @Column(name = "deleted")
+    private Integer deleted;
 }

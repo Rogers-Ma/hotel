@@ -32,4 +32,7 @@ public class Room {
 
     @Column(name = "state")
     private Integer state;
+
+    @Column(name = "deleted")
+    private Integer deleted;
 }

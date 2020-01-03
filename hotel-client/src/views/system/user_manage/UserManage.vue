@@ -48,7 +48,6 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button icon="el-icon-search" size="small" circle @click="showDetail(scope.$index)"></el-button>
             <el-button icon="el-icon-edit"   size="small" circle @click="edit(scope.$index)"></el-button>
             <el-button icon="el-icon-delete" size="small" circle @click="deleteById(scope.$index)"></el-button>
           </template>
@@ -190,12 +189,7 @@ export default {
     },
     edit(index){
       this.dialogState = "edit";
-      this.formData.id =this.tableData[index].id;
-      this.formData.password =this.tableData[index].password;
-      this.formData.name =this.tableData[index].name;
-      this.formData.realName =this.tableData[index].realName;
-      this.formData.telephone =this.tableData[index].telephone;
-      this.formData.balance =this.tableData[index].balance;
+      this.formData = this.tableData[index];
       this.dialogFormVisible = true;
     },
     deleteById(index){

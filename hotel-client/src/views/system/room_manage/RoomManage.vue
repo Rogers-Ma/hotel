@@ -63,7 +63,6 @@
           label="操作"
           width="330%">
           <template slot-scope="scope">
-            <el-button icon="el-icon-search" size="small" circle @click="showDetail(scope.$index)"></el-button>
             <el-button icon="el-icon-edit"   size="small" circle @click="edit(scope.$index)"></el-button>
             <el-button icon="el-icon-delete" size="small" circle @click="deleteById(scope.$index)"></el-button>
           </template>
@@ -208,10 +207,7 @@ export default {
     },
     edit(index){
       this.dialogState = "edit";
-      this.formData.id = this.tableData[index].id;
-      this.formData.number = this.tableData[index].number;
-      this.formData.typeId = this.tableData[index].typeId;
-      this.formData.state = this.tableData[index].state;
+      this.formData = this.tableData[index];
       this.dialogFormVisible = true;
     },
     deleteById(index){

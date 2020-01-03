@@ -31,4 +31,8 @@ public class Customer {
 
     @Column(name = "balance")
     private Double balance;
+
+
+    @Column(name = "deleted")
+    private Integer deleted;
 }
