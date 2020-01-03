@@ -45,6 +45,7 @@ public class RoomController {
 
     @RequestMapping(value = "room-manage", method = RequestMethod.POST)
     public Object save(@RequestBody @Valid Room room, BindingResult bindingResult){
+        room.setDeleted(0);
         if(bindingResult.hasErrors()){
             FieldError fieldError = bindingResult.getFieldError();
             return ResultUtil.error(fieldError.getDefaultMessage());

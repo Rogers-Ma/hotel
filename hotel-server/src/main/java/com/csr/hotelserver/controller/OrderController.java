@@ -27,7 +27,11 @@ public class OrderController {
 
     @RequestMapping(value = "order-manage", method = RequestMethod.PATCH)
     public Object updateOrder(@RequestBody Order order){
-        this.orderService.update(order);
+        if(order.getState() == 0){
+            this.orderService.checkIn(order);
+        }else if (order.getState() == 1){
+            this.orderService.checkOut(order);
+        }
         return ResultUtil.ok("修改成功");
     }
 

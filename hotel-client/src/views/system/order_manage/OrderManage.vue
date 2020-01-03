@@ -3,7 +3,7 @@
     <!-- 搜索框 -->
     <div style="text-align: center;">
       <el-row :gutter="20">
-        <el-col :span="3"><el-input size="small" v-model="searchData.name" placeholder="请输入客户姓名"></el-input></el-col>
+        <el-col :span="3"><el-input size="small" v-model="searchData.realName" placeholder="请输入客户姓名"></el-input></el-col>
         <el-col :span="3">
           <el-select v-model="searchData.state" placeholder="请选择房间类型" size="small">
             <el-option 
@@ -39,9 +39,10 @@
         <el-table-column prop="price" label="入住费用"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="small" v-show="scope.row.state === 0" @click="checkIn(scope.$index)">入住</el-button>
-            <el-button size="small" v-show="scope.row.state === 1" @click="checkOut(scope.$index)">退房</el-button>
-            <el-tag :type="'success'" v-show="scope.row.state === 2" disable-transitions>已退房</el-tag>
+            <el-button size="small" v-if="scope.row.state === 0" @click="checkIn(scope.$index)">入住</el-button>
+            <el-button size="small" v-if="scope.row.state === 1" @click="checkOut(scope.$index)">退房</el-button>
+            <el-tag :type="'success'" v-if="scope.row.state === 2" disable-transitions>已退房</el-tag>
+            <el-tag :type="'error'" v-if="scope.row.state === 3" disable-transitions>用户已取消</el-tag>
           </template>
         </el-table-column>
       </el-table>
@@ -101,17 +102,17 @@ export default {
           label: "已入住"
         },
         {
-          state: 3,
+          state: 2,
           label: "已退房"
         },
         {
-          state: 4,
+          state: 3,
           label: "已取消"
         },
       ],
       searchData: {
           realName: "",
-          state: 0
+          state: ""
       },
       pageInfo: {
         pageNo: 1,
@@ -124,7 +125,6 @@ export default {
       formLabelWidth: '80px',
       dialogFormVisible: false,
       formData: {
-        name: '',
         price: '',
         countRoom: '',
       },
@@ -159,16 +159,16 @@ export default {
       this.refreshTable();
     },
     reset() {
-      this.searchData.name="";
-      this.searchData.price="";
+      this.searchData.realName = "";
+      this.searchData.state = "";
       this.refreshTable();
     },
     checkIn (index) {
-
       this.axios.patch("/order-manage", this.tableData[index])
       .then(
         response => {
           this.showMessage(response.data.message,response.data.code);
+          this.refreshTable();
         },
         error => {
           this.showMessage("访问服务器异常");
@@ -181,6 +181,7 @@ export default {
       .then(
         response => {
           this.showMessage(response.data.message,response.data.code);
+          this.refreshTable();
         },
         error => {
           this.showMessage("访问服务器异常");

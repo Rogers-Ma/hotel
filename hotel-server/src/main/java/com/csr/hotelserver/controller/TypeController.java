@@ -5,11 +5,9 @@ import com.csr.hotelserver.entity.Type;
 import com.csr.hotelserver.service.TypeService;
 import com.csr.hotelserver.util.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +20,8 @@ public class TypeController {
 
     @RequestMapping(value = "type-manage", method = RequestMethod.GET, params = "!pageNo")
     public Object findAll(){
-        return ResultUtil.ok(this.typeService.findAll());
+        Map<String, Object> map = new HashMap<>();
+        return ResultUtil.ok(this.typeService.findAll(map));
     }
 
     @RequestMapping(value = "type-manage", method = RequestMethod.GET)
@@ -42,6 +41,7 @@ public class TypeController {
 
     @RequestMapping(value = "type-manage", method = RequestMethod.POST)
     public Object addCustomer(@Valid @RequestBody Type type, BindingResult bindingResult){
+        type.setDeleted(0);
         if (bindingResult.hasErrors()) {
             FieldError fieldError = bindingResult.getFieldError();
             return ResultUtil.error(fieldError.getDefaultMessage());

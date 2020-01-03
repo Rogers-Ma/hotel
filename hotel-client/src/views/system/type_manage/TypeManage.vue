@@ -26,24 +26,15 @@
         border>
         <el-table-column
           prop="name"
-          label="类型名称"
-          width="330%">
+          label="类型名称">
         </el-table-column>
         <el-table-column
           prop="price"
-          label="价格"
-          width="330%">
+          label="价格">
         </el-table-column>
         <el-table-column
-          prop="deposit"
-          label="押金"
-          width="330%">
-        </el-table-column>
-        <el-table-column
-          label="操作"
-          width="330%">
+          label="操作">
           <template slot-scope="scope">
-            <el-button icon="el-icon-search" size="small" circle @click="showDetail(scope.$index)"></el-button>
             <el-button icon="el-icon-edit"   size="small" circle @click="edit(scope.$index)"></el-button>
             <el-button icon="el-icon-delete" size="small" circle @click="deleteById(scope.$index)"></el-button>
           </template>
@@ -74,9 +65,6 @@
         </el-form-item>
         <el-form-item label="价格" :label-width="formLabelWidth" style="margin-right:30px">
           <el-input v-model="formData.price" autocomplete="off" size="small"></el-input>
-        </el-form-item>
-        <el-form-item label="押金" :label-width="formLabelWidth" style="margin-right:30px">
-          <el-input v-model="formData.deposit" autocomplete="off" size="small"></el-input>
         </el-form-item>
       </el-form>
       
@@ -114,8 +102,6 @@ export default {
       formData: {
         name: '',
         price: '',
-        countRoom: '',
-        deposit: '',
       },
       tableData: []
     }
@@ -167,10 +153,7 @@ export default {
     },
     edit(index){
       this.dialogState = "edit";
-      this.formData.id =this.tableData[index].id;
-      this.formData.name =this.tableData[index].name;
-      this.formData.price =this.tableData[index].price;
-      this.formData.deposit =this.tableData[index].deposit;
+      this.formData = this.tableData[index];
       this.dialogFormVisible = true;
     },
     deleteById(index){

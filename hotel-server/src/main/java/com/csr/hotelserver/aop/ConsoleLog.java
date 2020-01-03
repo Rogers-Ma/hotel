@@ -1,6 +1,7 @@
 package com.csr.hotelserver.aop;
 
 
+import com.csr.hotelserver.util.exception.MyException;
 import com.csr.hotelserver.util.result.ResultUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -29,7 +30,13 @@ public class ConsoleLog {
         try {
             object = proceedingJoinPoint.proceed();
         } catch (Throwable throwable) {
-            return ResultUtil.error("服务器未知异常");
+            if (throwable instanceof MyException){
+                System.err.println(throwable.getMessage());
+                return ResultUtil.error(throwable.getMessage());
+            }else {
+                System.err.println(throwable.getMessage());
+                return ResultUtil.error("服务器未知异常");
+            }
         }
         return object;
     }

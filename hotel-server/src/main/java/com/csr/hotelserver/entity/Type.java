@@ -23,7 +23,6 @@ public class Type {
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "deposit")
-    @NotNull(message = "押金不能为空")
-    private Double deposit;
+    @Column(name = "deleted")
+    private Integer deleted;
 }

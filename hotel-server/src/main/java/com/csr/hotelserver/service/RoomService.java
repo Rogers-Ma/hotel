@@ -2,6 +2,7 @@ package com.csr.hotelserver.service;
 
 import com.csr.hotelserver.dao.RoomRepository;
 import com.csr.hotelserver.entity.Room;
+import com.csr.hotelserver.util.exception.MyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class RoomService implements ServiceTemplate<Room, Long, RoomRepository>{
     public Specification<Room> buildJpaSpecification(Map<String, Object> conditions) {
         return (Specification<Room>) (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> list = new ArrayList<>();
+            list.add(criteriaBuilder.equal(root.get("deleted").as(Integer.class), 0));
             String number = conditions.containsKey("number")?(String) conditions.get("number"):null;
             if (number != null && !"".equals(number)) {
                 list.add(criteriaBuilder.equal(root.get("number").as(String.class), number));
@@ -42,11 +44,19 @@ public class RoomService implements ServiceTemplate<Room, Long, RoomRepository>{
     }
 
     @Override
-    public void save(Room room) throws Exception {
+    public void deleteById(Long id) {
+        Room room = this.roomRepository.getOne(id);
+        room.setDeleted(room.getDeleted()+1);
+        this.update(room);
+    }
+
+    @Override
+    public void save(Room room) throws MyException {
         Map<String, Object> map = new HashMap<>();
         map.put("number",room.getNumber());
+        map.put("deleted",0);
         if(this.roomRepository.count(buildJpaSpecification(map)) > 0){
-            throw new Exception("房间号已存在");
+            throw new MyException("房间号已存在");
         }
         this.roomRepository.save(room);
     }

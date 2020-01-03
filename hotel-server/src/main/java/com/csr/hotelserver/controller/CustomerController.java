@@ -3,6 +3,7 @@ package com.csr.hotelserver.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.csr.hotelserver.entity.Customer;
 import com.csr.hotelserver.service.CustomerService;
+import com.csr.hotelserver.util.exception.MyException;
 import com.csr.hotelserver.util.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,7 @@ public class CustomerController {
 
     @RequestMapping(value = "customer-manage", method = RequestMethod.PATCH)
     public Object updateCustomer(@RequestBody Customer customer){
+        System.out.println(customer);
         this.customerService.update(customer);
         return ResultUtil.ok("修成成功");
     }
@@ -42,10 +44,11 @@ public class CustomerController {
         }
         customer.setBalance(0.000);
         customer.setId(null);
+        customer.setDeleted(0);
         customer.setPassword("123456");
         try {
             this.customerService.save(customer);
-        } catch (Exception e) {
+        } catch (MyException e) {
             return ResultUtil.error("用户名已存在！");
         }
         return ResultUtil.ok("添加成功");
