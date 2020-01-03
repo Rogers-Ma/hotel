@@ -17,6 +17,11 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
+    @RequestMapping(value = "room-manage", method = RequestMethod.GET, params = "!pageNo")
+    public Object findAll(@RequestParam(required = false, name = "condition") String condition){
+        return ResultUtil.ok();
+    }
+
     @RequestMapping(value = "room-manage", method = RequestMethod.GET)
     public Object findByPage(@RequestParam Integer pageNo, @RequestParam Integer pageSize, @RequestParam(required = false, name = "condition") String condition){
         Map<String, Object> conditionMap = new HashMap<>();

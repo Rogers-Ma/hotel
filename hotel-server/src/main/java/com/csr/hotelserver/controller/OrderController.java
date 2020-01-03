@@ -7,10 +7,7 @@ import com.csr.hotelserver.util.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +26,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "order-manage", method = RequestMethod.PATCH)
-    public Object update(Order order){
+    public Object updateOrder(@RequestBody Order order){
         this.orderService.update(order);
         return ResultUtil.ok("修改成功");
     }
@@ -41,7 +38,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "order-manage", method = RequestMethod.POST)
-    public Object save(Order order, BindingResult bindingResult){
+    public Object save(@RequestBody Order order, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             FieldError fieldError = bindingResult.getFieldError();
             return ResultUtil.error(fieldError.getDefaultMessage());
