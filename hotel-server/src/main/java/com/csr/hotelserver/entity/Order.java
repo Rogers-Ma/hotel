@@ -4,11 +4,12 @@ import lombok.Data;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import javax.persistence.*;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
+import java.sql.Date;
 
 @Data
 @Entity
-@Table(name = "order")
+@Table(name = "`order`")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +18,9 @@ public class Order {
     @Column(name = "room_id")
     private Long roomId;
 
+    @Column(name = "customer_id")
+    private Long customerId;
+
     @Column(name = "create_date")
     private Date createDate;
 
@@ -24,14 +28,28 @@ public class Order {
     private Date startDate;
 
     @Column(name = "end_date")
-    private Date endeDate;
+    private Date endDate;
 
-    @Column(name = "status")
-    private Integer status;
+    @Column(name = "state")
+    private Integer state;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "room_id", referencedColumnName = "id", insertable = false, updatable = false,
             foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private Room room;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", insertable = false, updatable = false,
+            foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    private Customer customer;
+
+    @NotNull(message = "订单总金额不能为空")
+    @Column(name = "price")
+    private Double price;
+
+    @NotNull(message = "押金不能为空")
+    @Column(name = "deposit")
+    private Double deposit;
 }

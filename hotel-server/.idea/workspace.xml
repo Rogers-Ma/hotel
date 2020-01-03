@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2fcc908-e1cd-435a-9ad9-249c4d184ebd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/views/system/order_manage/OrderManage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/views/system/order_manage/OrderManage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/OrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/RoomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/TypeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/TypeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Type.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/RoomService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/ServiceTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/ServiceTemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Order.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,6 +115,8 @@
       <workItem from="1577623269910" duration="7807000" />
       <workItem from="1577669108365" duration="13210000" />
       <workItem from="1577857346215" duration="14143000" />
+      <workItem from="1577935658984" duration="12341000" />
+      <workItem from="1578013893618" duration="623000" />
     </task>
     <servers />
   </component>

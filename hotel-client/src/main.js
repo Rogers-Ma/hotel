@@ -6,10 +6,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import router from './router'
 import axios from 'axios'
-import token from '../config/token.js';
 
 Vue.prototype.axios = axios
-Vue.prototype.$token = token
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 axios.defaults.timeout = 1000
