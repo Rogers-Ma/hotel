@@ -149,18 +149,18 @@ export default {
       )
     },
     add() {
-      this.dialogState = "add";
-      this.formData.id = "";
-      this.formData.name = "";
-      this.formData.price = "";
+      this.dialogState = 'add';
+      this.formData.id = '';
+      this.formData.name = '';
+      this.formData.price = '';
       this.dialogFormVisible = true;
     },
     search() {
       this.refreshTable();
     },
     reset() {
-      this.searchData.realName = "";
-      this.searchData.state = "";
+      this.searchData.realName = '';
+      this.searchData.state = '';
       this.refreshTable();
     },
     checkIn (index) {

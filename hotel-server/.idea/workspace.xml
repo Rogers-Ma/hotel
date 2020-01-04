@@ -2,24 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2fcc908-e1cd-435a-9ad9-249c4d184ebd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../hotel-client/src/views/system/order_manage/OrderManage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/views/system/order_manage/OrderManage.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/AdminController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/components/BackMain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/components/BackMain.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/components/CustomerMain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/components/CustomerMain.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/components/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/aop/ConsoleLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/aop/ConsoleLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/RoomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/TypeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/TypeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/dao/CustomerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/dao/CustomerRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Type.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/CustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/RoomService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/ServiceTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/ServiceTemplate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/TypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/TypeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/util/exception/SlefException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/util/exception/MyException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/dao/AdminRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/dao/AdminRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Admin.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -130,6 +121,7 @@
       <workItem from="1577935658984" duration="12341000" />
       <workItem from="1578013893618" duration="15616000" />
       <workItem from="1578058497017" duration="7071000" />
+      <workItem from="1578145289954" duration="7771000" />
     </task>
     <servers />
   </component>

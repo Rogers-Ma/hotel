@@ -20,5 +20,5 @@ public class Admin {
 
     @Column(name = "password")
     @NotBlank(message = "密码不能为空")
-    private String passowrd;
+    private String password;
 }

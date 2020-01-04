@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import BackMain from '@/components/BackMain'
+import CustomerMain from '@/components/CustomerMain'
 import Login from '@/components/Login'
 import UserManage from '@/views/system/user_manage/UserManage'
 import TypeManage from '@/views/system/type_manage/TypeManage'
@@ -12,7 +13,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/system',
       name: 'BackMain',
       component: BackMain,
       children: [
@@ -39,9 +40,14 @@ export default new Router({
       ]
     },    
     {
-      path: '/login',
+      path: '/',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/customer',
+      name: 'CustomerMain',
+      component: CustomerMain
     },
   ]
 })
