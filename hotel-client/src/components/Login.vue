@@ -29,7 +29,10 @@
   </div>
 </template>
 
+
 <script>
+
+
 export default {
   data(){
     return {
@@ -47,26 +50,48 @@ export default {
   methods: {
     login(){
       if(this.isAdmin === '1'){
-        this.axios.post("admin-login", this.loginForm)
+        this.axios.post("customer-login",this.loginForm)
         .then(
-          response=>{
-            this.Token.setToken(response.data.body);
-            this.$router.push({ name: 'BackMain' });
+          res => {
+            if(res.data.body != null) {
+              this.$token.setToken("customer");
+              this.$token.setUser(res.data.body)
+              this.$router.push({name: "CustomerMain"})
+            }else {
+              this.showMessage(res.data.message, res.data.code);
+            }
           },
-          error=>{
+          error => {
+
           }
         )
-      }else{
-        this.axios.post("admin-login", this.loginForm)
+      }else if(this.isAdmin === '2'){
+        this.axios.post("admin-login",this.loginForm)
         .then(
-          response=>{
-            this.Token.setToken(response.data.body);
-            this.$router.push({ name: 'BackMain' });
+          res => {
+            if(res.data.body != null) {
+              this.$token.setToken("admin");
+              this.$token.setUser(res.data.body)
+              this.$router.push({name: "BackMain"})
+            }else {
+              this.showMessage(res.data.message, res.data.code);
+            }
           },
-          error=>{
+          error => {
+
           }
-        );
+        )
       }
+    },
+    showMessage (message,type="error") {
+      this.$notify({
+        title: "提示",
+        message: message,
+        position: 'bottom-right',
+        type: type,
+        // 弹窗停留时间
+        duration: 1000
+      });
     }
   }
 };

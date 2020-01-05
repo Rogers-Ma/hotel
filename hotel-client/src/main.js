@@ -4,11 +4,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import router from './router'
 import axios from 'axios'
-import Token from './api/defined'
+import Token from './api/token'
 
-Vue.prototype.Token = Token;
 Vue.prototype.axios = axios
 Vue.use(ElementUI)
+Vue.use(Token)
 Vue.config.productionTip = false
 
 axios.defaults.timeout = 1000
@@ -18,6 +18,5 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
-  
+  template: '<App/>'  
 })

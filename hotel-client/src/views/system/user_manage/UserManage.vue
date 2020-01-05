@@ -179,14 +179,7 @@ export default {
         duration: 1000
       });
     },
-    showDetail(index){
-      this.dialogState = "show";
-      this.dialogFormVisible = true;
-      this.formData.name =this.tableData[index].name;
-      this.formData.realName =this.tableData[index].realName;
-      this.formData.telephone =this.tableData[index].telephone;
-      this.formData.balance =this.tableData[index].balance;
-    },
+
     edit(index){
       this.dialogState = "edit";
       this.formData = this.tableData[index];

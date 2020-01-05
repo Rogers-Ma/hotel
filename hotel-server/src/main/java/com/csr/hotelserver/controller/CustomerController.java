@@ -59,4 +59,14 @@ public class CustomerController {
         this.customerService.deleteById(Long.valueOf(id));
         return ResultUtil.ok("删除成功");
     }
+
+    @RequestMapping(value = "customer-login", method = RequestMethod.POST)
+    public Object Login(@RequestBody Customer customer){
+        Customer admin = this.customerService.login(customer.getName(),customer.getPassword());
+        if(admin == null) {
+            return ResultUtil.error("账号或密码错误");
+        }else {
+            return ResultUtil.ok(admin);
+        }
+    }
 }

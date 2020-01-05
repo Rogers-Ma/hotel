@@ -61,4 +61,8 @@ public class CustomerService implements ServiceTemplate<Customer,Long,CustomerRe
         }
         customerRepository.save(customer);
     }
+
+    public Customer login(String name, String password){
+        return this.customerRepository.findByNameAndPassword(name, password);
+    }
 }

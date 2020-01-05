@@ -3,26 +3,17 @@
     
     <el-header style="font-size: 15px">
       <span style="float: left; font-size: 20px"><b>酒店后台管理</b></span>
-      <el-dropdown v-if="isLogin" @command="handleCommand">
-        <a href="javascript:void(0)">
-          <span class="user-name">
-            {{"你好：" + Token.getToken().name}}
-            <img src="/static/images/system/avator.jpg" />
-          </span>
-        </a>
+      
+      <el-dropdown v-if="isLogin" @command="handleCommand" style="float: right">
+        <span >
+          {{"你好：" + admin.name}}
+        </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="personal-detail">个人信息</el-dropdown-item>
-          <el-dropdown-item command="password-change">
-            <a>修改密码</a>
-          </el-dropdown-item>
-          <el-dropdown-item command="help">
-            <a>帮助</a>
-          </el-dropdown-item>
-
+          <el-dropdown-item command="password-change"><a>修改密码</a></el-dropdown-item>
           <el-dropdown-item command="logout">注销登录</el-dropdown-item>
-          
         </el-dropdown-menu>
       </el-dropdown>
+
     </el-header>
     <el-container>
       <el-aside width="150px" >
@@ -35,7 +26,7 @@
               background-color="#545c64"
               text-color="#fff"
               active-text-color="#ffd04b"
-              default-active="defaultActive"
+              default-active="user-manage"
               >
 
               <el-menu-item index="user-manage">
@@ -71,16 +62,48 @@
 export default {
   data(){
     return {
-      defaultActive:'user-manage'
+      admin: {},
+      isLogin: false,
     }
   },
   mounted() {
-    if(this.Token.getToken() === null){
-      this.$router.push({name: "Login"});
-    }
+    this.initData();
   },
-  activated(){},
-  methods: {}
+  activated(){
+    this.initData();
+  },
+  methods: {
+    initData() {
+      this.isLogin = this.$token.isLogin();
+      if (this.isLogin) {
+        console.log(this.$token.getUser());
+        this.admin = this.$token.getUser();
+      }else{
+        this.$router.push({name: 'Login'})
+      }
+    },
+    handleCommand(command) {
+      switch (command) {
+        case 'logout': {
+          this.$token.logout();
+          this.isLogin = false;
+          this.user = {};
+          this.$router.push({
+            name: 'Login'
+          });
+          break;
+        }
+        case 'personal-detail': {
+          this.$router.push({ name: 'Profile' });
+          break;
+        }
+        case 'password-change': {
+          this.showPasswordChange = true;
+          break;
+        }
+      }
+    },
+  }
 }
 </script>
 
