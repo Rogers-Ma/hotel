@@ -7,7 +7,8 @@ import UserManage from '@/views/system/user_manage/UserManage'
 import TypeManage from '@/views/system/type_manage/TypeManage'
 import RoomManage from '@/views/system/room_manage/RoomManage'
 import OrderManage from '@/views/system/order_manage/OrderManage'
-
+import Order from '@/views/client/Order'
+import Home from '@/views/client/Home'
 Vue.use(Router)
 
 export default new Router({
@@ -47,7 +48,19 @@ export default new Router({
     {
       path: '/customer',
       name: 'CustomerMain',
-      component: CustomerMain
+      component: CustomerMain,
+      children: [
+        {
+          path: '/home',
+          name: 'Home',
+          component: Home
+        },
+        {
+          path: '/order',
+          name: 'Order',
+          component: Order
+        },
+      ]
     },
   ]
 })

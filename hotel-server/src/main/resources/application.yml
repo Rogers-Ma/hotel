@@ -10,6 +10,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
     database: mysql
     show-sql: true
+    open-in-view: false
   devtools:
     restart:
       enabled: true

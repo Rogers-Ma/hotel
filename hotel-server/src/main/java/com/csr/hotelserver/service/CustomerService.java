@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +46,7 @@ public class CustomerService implements ServiceTemplate<Customer,Long,CustomerRe
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         Customer customer = this.customerRepository.getOne(id);
         customer.setDeleted(customer.getDeleted()+1);

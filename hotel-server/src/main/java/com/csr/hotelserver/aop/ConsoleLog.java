@@ -30,13 +30,14 @@ public class ConsoleLog {
         try {
             object = proceedingJoinPoint.proceed();
         } catch (Throwable throwable) {
-            if (throwable instanceof MyException){
-                System.err.println(throwable.getMessage());
-                return ResultUtil.error(throwable.getMessage());
-            }else {
-                System.err.println(throwable.getMessage());
-                return ResultUtil.error("服务器未知异常");
-            }
+            throwable.printStackTrace();
+//            if (throwable instanceof MyException){
+//                System.err.println(throwable.getMessage());
+//                return ResultUtil.error(throwable.getMessage());
+//            }else {
+//                System.err.println(throwable.getMessage());
+//                return ResultUtil.error("服务器未知异常");
+//            }
         }
         return object;
     }

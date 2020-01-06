@@ -2,18 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2fcc908-e1cd-435a-9ad9-249c4d184ebd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_auth0_java_jwt_3_4_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_13.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/aop/TokenInterceptor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/util/token/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../hotel-client/src/components/BackMain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/components/BackMain.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/components/CustomerMain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/components/CustomerMain.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hotel-server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/hotel-server.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/aop/ConsoleLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/aop/ConsoleLog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/dao/CustomerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/dao/CustomerRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/CustomerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/RoomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/TypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/TypeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +73,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -131,6 +130,7 @@
       <workItem from="1578058497017" duration="7071000" />
       <workItem from="1578145289954" duration="7771000" />
       <workItem from="1578195541841" duration="12656000" />
+      <workItem from="1578278778109" duration="9865000" />
     </task>
     <servers />
   </component>

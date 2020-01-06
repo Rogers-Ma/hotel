@@ -72,6 +72,7 @@ public class OrderService implements ServiceTemplate<Order, Long, OrderRepositor
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         Order order = this.orderRepository.getOne(id);
         order.setDeleted(order.getDeleted() + 1);

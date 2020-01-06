@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,7 @@ public class TypeService implements ServiceTemplate<Type, Long, TypeRepository> 
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         Type type = this.typeRepository.getOne(id);
         type.setDeleted(type.getDeleted() + 1);
