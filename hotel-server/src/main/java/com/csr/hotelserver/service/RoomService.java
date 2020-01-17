@@ -6,6 +6,7 @@ import com.csr.hotelserver.util.exception.MyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import javax.persistence.RollbackException;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -33,23 +34,29 @@ public class RoomService implements ServiceTemplate<Room, Long, RoomRepository>{
                 list.add(criteriaBuilder.equal(root.get("number").as(String.class), number));
             }
             try {
-                Integer type = conditions.containsKey("typeId") ? (Integer)conditions.get("typeId") : null;
-                if (number != null && !type.equals(0)) {
-                    list.add(criteriaBuilder.equal(root.get("typeId").as(Long.class), Long.valueOf(type)));
+                Long type = conditions.containsKey("typeId") ? (Long)conditions.get("typeId") : null;
+                if (type != null && !type.equals(0)) {
+                    list.add(criteriaBuilder.equal(root.get("typeId").as(Long.class), type));
                 }
-            }catch (Exception e){}
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
             criteriaQuery.where(criteriaBuilder.and(list.toArray(new Predicate[0])));
             return criteriaQuery.getRestriction();
         };
     }
 
-    @Transactional
+    @Transactional(rollbackOn = RollbackException.class)
     @Override
     public void deleteById(Long id) {
         Room room = this.roomRepository.getOne(id);
         room.setDeleted(room.getDeleted()+1);
         this.update(room);
+    }
+
+    public Long count(Map conditions){
+        return this.roomRepository.count(this.buildJpaSpecification(conditions));
     }
 
     @Override

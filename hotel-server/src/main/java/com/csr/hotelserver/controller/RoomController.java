@@ -27,6 +27,13 @@ public class RoomController {
         Map<String, Object> conditionMap = new HashMap<>();
         if (condition != null && !"".equals(condition)) {
             conditionMap.putAll(JSONObject.parseObject(condition, Map.class));
+            if (conditionMap.containsKey("typeId")){
+                if(conditionMap.get("typeId").equals("")) {
+                    conditionMap.remove("typeId");
+                }else{
+                    conditionMap.put("typeId", Long.valueOf((Integer)conditionMap.get("typeId")));
+                }
+            }
         }
         return ResultUtil.ok(this.roomService.findByPage(pageNo-1, pageSize, conditionMap));
     }

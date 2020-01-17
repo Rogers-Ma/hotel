@@ -102,6 +102,7 @@ export default {
       formData: {
         name: '',
         price: '',
+        date: '',
       },
       tableData: []
     }
@@ -183,7 +184,6 @@ export default {
     submitForm(){
       switch (this.dialogState){
         case "add":
-          console.log(this.formData);
           this.axios.post("/type-manage",this.formData)
           .then(
             response=>{

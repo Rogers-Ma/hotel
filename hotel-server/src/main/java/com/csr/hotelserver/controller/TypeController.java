@@ -59,4 +59,14 @@ public class TypeController {
         this.typeService.deleteById(Long.valueOf(id));
         return ResultUtil.ok("删除成功");
     }
+
+    @RequestMapping(value = "type", method = RequestMethod.GET)
+    public Object getMessage(){
+        return ResultUtil.ok(this.typeService.getReserveMessage());
+    }
+
+    @RequestMapping(value = "type", method = RequestMethod.PATCH)
+    public Object reserve(){
+        return ResultUtil.ok();
+    }
 }

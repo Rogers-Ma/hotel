@@ -16,10 +16,6 @@ import java.util.Map;
 public interface ServiceTemplate<T,M,F extends JpaRepository<T,M> & JpaSpecificationExecutor<T>>{
     F getRepository();
 
-    default List<T> findAll(){
-        return this.getRepository().findAll();
-    }
-
     default List<T> findAll(Map<String, Object> condition){
         return this.getRepository().findAll(buildJpaSpecification(condition));
     }

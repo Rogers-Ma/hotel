@@ -19,6 +19,10 @@ export default new Router({
       component: BackMain,
       children: [
         {
+          path: '/',
+          redirect: '/user-manage'
+        },
+        {
           path: '/user-manage',
           name: 'UserManage',
           component: UserManage
@@ -50,6 +54,10 @@ export default new Router({
       name: 'CustomerMain',
       component: CustomerMain,
       children: [
+        {
+          path: '/',
+          redirect: '/home'
+        },
         {
           path: '/home',
           name: 'Home',

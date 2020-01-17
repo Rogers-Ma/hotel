@@ -2,12 +2,15 @@ package com.csr.hotelserver.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.csr.hotelserver.entity.Order;
+import com.csr.hotelserver.entity.Type;
 import com.csr.hotelserver.service.OrderService;
 import com.csr.hotelserver.util.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.ServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,5 +56,10 @@ public class OrderController {
             return ResultUtil.error(e.getMessage());
         }
         return ResultUtil.ok("添加成功");
+    }
+
+    @RequestMapping(value = "order", method = RequestMethod.POST)
+    public Object createOrder(ServletRequest request, @RequestParam(name = "typeId") Object typeId, @RequestParam(name = "customerId") Object customerId, @RequestParam(name = "date[0]") Object date0, @RequestParam(name = "date[1]") Object date1){
+        return ResultUtil.ok();
     }
 }
