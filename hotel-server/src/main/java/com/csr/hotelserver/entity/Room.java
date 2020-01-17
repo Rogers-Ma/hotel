@@ -3,15 +3,15 @@ package com.csr.hotelserver.entity;
 import lombok.Data;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "room")
-public class Room {
+public class Room implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,4 +32,7 @@ public class Room {
 
     @Column(name = "state")
     private Integer state;
+
+    @Column(name = "deleted")
+    private Integer deleted;
 }

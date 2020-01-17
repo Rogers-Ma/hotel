@@ -2,15 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2fcc908-e1cd-435a-9ad9-249c4d184ebd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/TypeVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/views/client/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/views/client/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/views/system/type_manage/TypeManage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/views/system/type_manage/TypeManage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/OrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/RoomController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/TypeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/TypeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Room.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/entity/Type.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/RoomService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/ServiceTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/ServiceTemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/TypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/TypeService.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -66,15 +71,20 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/util" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/csr" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.csr.hotelserver" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\PROJECT\hotel\hotel-server\src\main\java\com\csr" />
+      <recent name="E:\PROJECT\hotel\hotel-server\src\main\java\com\csr\hotelserver\util\token" />
       <recent name="E:\Java_project\idea\hotel-server\src\main\java\com\csr\hotelserver\util" />
     </key>
   </component>
@@ -118,6 +128,19 @@
       <workItem from="1577623269910" duration="7807000" />
       <workItem from="1577669108365" duration="13210000" />
       <workItem from="1577857346215" duration="14143000" />
+      <workItem from="1577935658984" duration="12341000" />
+      <workItem from="1578013893618" duration="15616000" />
+      <workItem from="1578058497017" duration="7071000" />
+      <workItem from="1578145289954" duration="7771000" />
+      <workItem from="1578195541841" duration="12656000" />
+      <workItem from="1578278778109" duration="9865000" />
+      <workItem from="1578384165753" duration="1937000" />
+      <workItem from="1578619347063" duration="685000" />
+      <workItem from="1578730181257" duration="5061000" />
+      <workItem from="1578819007725" duration="5922000" />
+      <workItem from="1578873337549" duration="3245000" />
+      <workItem from="1578898934717" duration="997000" />
+      <workItem from="1579230079080" duration="9687000" />
     </task>
     <servers />
   </component>

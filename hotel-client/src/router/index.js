@@ -1,21 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import BackMain from '@/components/BackMain'
+import CustomerMain from '@/components/CustomerMain'
 import Login from '@/components/Login'
 import UserManage from '@/views/system/user_manage/UserManage'
 import TypeManage from '@/views/system/type_manage/TypeManage'
 import RoomManage from '@/views/system/room_manage/RoomManage'
 import OrderManage from '@/views/system/order_manage/OrderManage'
-
+import Order from '@/views/client/Order'
+import Home from '@/views/client/Home'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/system',
       name: 'BackMain',
       component: BackMain,
       children: [
+        {
+          path: '/',
+          redirect: '/user-manage'
+        },
         {
           path: '/user-manage',
           name: 'UserManage',
@@ -39,9 +45,30 @@ export default new Router({
       ]
     },    
     {
-      path: '/login',
+      path: '/',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/customer',
+      name: 'CustomerMain',
+      component: CustomerMain,
+      children: [
+        {
+          path: '/',
+          redirect: '/home'
+        },
+        {
+          path: '/home',
+          name: 'Home',
+          component: Home
+        },
+        {
+          path: '/order',
+          name: 'Order',
+          component: Order
+        },
+      ]
     },
   ]
 })

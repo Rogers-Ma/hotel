@@ -3,11 +3,14 @@ package com.csr.hotelserver.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.csr.hotelserver.entity.Customer;
 import com.csr.hotelserver.service.CustomerService;
+import com.csr.hotelserver.util.exception.MyException;
 import com.csr.hotelserver.util.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +33,7 @@ public class CustomerController {
 
     @RequestMapping(value = "customer-manage", method = RequestMethod.PATCH)
     public Object updateCustomer(@RequestBody Customer customer){
+        System.out.println(customer);
         this.customerService.update(customer);
         return ResultUtil.ok("修成成功");
     }
@@ -42,10 +46,11 @@ public class CustomerController {
         }
         customer.setBalance(0.000);
         customer.setId(null);
+        customer.setDeleted(0);
         customer.setPassword("123456");
         try {
             this.customerService.save(customer);
-        } catch (Exception e) {
+        } catch (MyException e) {
             return ResultUtil.error("用户名已存在！");
         }
         return ResultUtil.ok("添加成功");
@@ -55,5 +60,15 @@ public class CustomerController {
     public Object deleteCustomer(@RequestParam(name = "id") String id){
         this.customerService.deleteById(Long.valueOf(id));
         return ResultUtil.ok("删除成功");
+    }
+
+    @RequestMapping(value = "customer-login", method = RequestMethod.POST)
+    public Object Login(@RequestBody Customer customer){
+        Customer admin = this.customerService.login(customer.getName(),customer.getPassword());
+        if(admin == null) {
+            return ResultUtil.error("账号或密码错误");
+        }else {
+            return ResultUtil.ok(admin);
+        }
     }
 }
