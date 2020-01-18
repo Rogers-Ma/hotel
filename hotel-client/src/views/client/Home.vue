@@ -14,7 +14,8 @@
               </el-col>
 
               <el-col :span="4" style="line-height: 95px">
-                <el-button @click="reserve(item)" round>预定</el-button>
+                <el-button v-if="item.count > 0" @click="reserve(item)" round>预定</el-button>
+                <el-button v-if="item.count === 0" type="info" round disabled>满房</el-button>
               </el-col>
           </el-tag>
           <br/><br/>
@@ -24,13 +25,12 @@
       <el-dialog title="入住时间" :visible.sync="dialogFormVisible">
         <el-form :model="orderInfo">
           <div class="block">
-            <span class="demonstration">默认</span>
             <el-date-picker
               v-model="orderInfo.date"
               type="daterange"
               range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期">
+              start-placeholder="入住时间"
+              end-placeholder="退房时间">
             </el-date-picker>
           </div>
         </el-form>
@@ -79,14 +79,16 @@ export default {
       this.dialogFormVisible = true
     },
     submitForm() {
-      console.log(JSON.stringify(this.orderInfo));
       this.axios.post("/order",this.$qs.stringify(this.orderInfo))
       .then(
-        res=>{},
-        error=>{}
-      )
-      this.dialogFormVisible = false;
+        res=>{
+          this.initData();
+          this.dialogFormVisible = false;
+        },
+        error=>{
 
+        }
+      )
     }
   }
 }

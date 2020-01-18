@@ -66,9 +66,9 @@ public class TypeService implements ServiceTemplate<Type, Long, TypeRepository> 
         List<Type> types = this.findAll(new HashMap<>());
         List<TypeVO> typeVOS = new ArrayList<>(types.size());
         for (Type type: types){
-            System.out.println(type);
             Map<String,Object> map = new HashMap<>();
             map.put("typeId",type.getId());
+            map.put("state",0);
             TypeVO typeVO = new TypeVO(type,this.roomService.count(map));
             typeVOS.add(typeVO);
         }

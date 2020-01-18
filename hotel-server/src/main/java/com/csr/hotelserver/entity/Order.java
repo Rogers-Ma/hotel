@@ -1,5 +1,7 @@
 package com.csr.hotelserver.entity;
 
+import com.csr.hotelserver.util.isbn.IsbnUtil;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import lombok.Data;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -14,6 +16,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "isbn")
+    private String isbn;
 
     @Column(name = "room_id")
     private Long roomId;
@@ -51,4 +56,18 @@ public class Order {
 
     @Column(name = "deleted")
     private Integer deleted;
+
+    public Order(){}
+
+    public Order(Long roomId, Long customerId, Date startDate, Date endDate, Double prices){
+        this.roomId = roomId;
+        this.customerId = customerId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = prices;
+        this.createDate = new Date((new java.util.Date()).getTime());
+        this.deleted = 0;
+        this.state = 0;
+        this.isbn = IsbnUtil.getOnumber();
+    }
 }

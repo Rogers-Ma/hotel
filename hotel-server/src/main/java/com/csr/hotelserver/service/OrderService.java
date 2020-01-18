@@ -4,17 +4,15 @@ import com.csr.hotelserver.dao.OrderRepository;
 import com.csr.hotelserver.entity.Customer;
 import com.csr.hotelserver.entity.Order;
 import com.csr.hotelserver.entity.Room;
+import com.csr.hotelserver.entity.Type;
+import com.csr.hotelserver.util.date.DateUtil;
 import com.csr.hotelserver.util.exception.MyException;
-import javafx.beans.value.ObservableObjectValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.RollbackException;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,7 +70,7 @@ public class OrderService implements ServiceTemplate<Order, Long, OrderRepositor
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = RollbackException.class)
     public void deleteById(Long id) {
         Order order = this.orderRepository.getOne(id);
         order.setDeleted(order.getDeleted() + 1);
@@ -89,5 +87,31 @@ public class OrderService implements ServiceTemplate<Order, Long, OrderRepositor
         Room room = order.getRoom();
         room.setState(0);
         this.update(order);
+    }
+
+    @Transactional(rollbackOn = RollbackException.class)
+    public void createOrder(Long typeId, Long customerId, String date0, String date1) throws MyException {
+        //查询条件
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("typeId", typeId);
+        conditions.put("state", 0);
+        List<Room> rooms = this.roomService.findAll(conditions);
+        Room room = rooms.get(0);
+        room.setState(1);
+
+
+        //用户扣钱环节
+        Double prices = room.getType().getPrice() * DateUtil.getDays(date0, date1);
+        Customer customer = this.customerService.getOne(customerId);
+        if(customer.getBalance() < prices){
+            throw new MyException("余额不足");
+        }
+        customer.setBalance(customer.getBalance() - prices);
+        this.customerService.update(customer);
+
+        //修改房间状态
+        this.roomService.update(room);
+        Order order = new Order(room.getId(), customerId, DateUtil.strToSqlDate(date0), DateUtil.strToSqlDate(date1), prices);
+        this.orderRepository.save(order);
     }
 }
