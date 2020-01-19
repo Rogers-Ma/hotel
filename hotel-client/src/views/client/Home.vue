@@ -68,7 +68,7 @@ export default {
           this.reserveMessage = res.data.body;
         },
         error=>{
-
+          this.showMessage("服务器启动异常");
         }
       )
     },
@@ -84,12 +84,23 @@ export default {
         res=>{
           this.initData();
           this.dialogFormVisible = false;
+          this.showMessage(res.data.message, res.data.code);
         },
         error=>{
-
+          this.showMessage("服务器未启动");
         }
       )
-    }
+    },
+    showMessage(message, type="error") {
+      this.$notify({
+        title: "提示",
+        message: message,
+        position: 'bottom-right',
+        type: type,
+        // 弹窗停留时间
+        duration: 1000
+      });
+    },
   }
 }
 </script>

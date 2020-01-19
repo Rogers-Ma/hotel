@@ -62,7 +62,19 @@ public class OrderController {
                               @RequestParam(name = "customerId") Long customerId,
                               @RequestParam(name = "date[0]") String date0,
                               @RequestParam(name = "date[1]") String date1) throws MyException {
-        this.orderService.createOrder(typeId,customerId,date0,date1);
+
+        try{
+            this.orderService.createOrder(typeId,customerId,date0,date1);
+        }catch (MyException e){
+            throw e;
+        }
         return ResultUtil.ok("预定成功");
+    }
+
+    @RequestMapping(value = "order", method = RequestMethod.GET)
+    public Object getOwnOrderMessage(@RequestParam(name = "customerId") Long customerId){
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("customerId", customerId);
+        return ResultUtil.ok(this.orderService.findAll(conditions));
     }
 }
