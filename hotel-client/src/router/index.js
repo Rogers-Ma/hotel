@@ -17,28 +17,25 @@ export default new Router({
       path: '/system',
       name: 'BackMain',
       component: BackMain,
+      redirect: '/system/user-manage',
       children: [
         {
-          path: '/',
-          redirect: '/user-manage'
-        },
-        {
-          path: '/user-manage',
+          path: 'user-manage',
           name: 'UserManage',
           component: UserManage
         },
         {
-          path: '/type-manage',
+          path: 'type-manage',
           name: 'TypeManage',
           component: TypeManage
         },
         {
-          path: '/room-manage',
+          path: 'room-manage',
           name: 'RoomManage',
           component: RoomManage
         },
         {
-          path: '/order-manage',
+          path: 'order-manage',
           name: 'OrderManage',
           component: OrderManage
         },
@@ -53,18 +50,15 @@ export default new Router({
       path: '/customer',
       name: 'CustomerMain',
       component: CustomerMain,
+      redirect: '/customer/home',
       children: [
         {
-          path: '/',
-          redirect: '/home'
-        },
-        {
-          path: '/home',
+          path: 'home',
           name: 'Home',
           component: Home
         },
         {
-          path: '/order',
+          path: 'order',
           name: 'Order',
           component: Order
         },

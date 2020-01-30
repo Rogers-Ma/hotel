@@ -13,7 +13,25 @@
           <el-dropdown-item command="logout">注销登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-
+      <div>
+        <el-dialog title="修改密码" :visible.sync="showPasswordChange" width="30%">
+          <el-form :model="passwordChange" ref="passwordChange" :rules="rules">
+            <el-form-item label="旧密码" :label-width="formLabelWidth" prop="oldPassword" style="margin-right:30px">
+              <el-input autocomplete="off" v-model="passwordChange.oldPassword" size="small"></el-input>
+            </el-form-item>
+            <el-form-item label="新密码" :label-width="formLabelWidth" prop="password1" style="margin-right:30px">
+              <el-input autocomplete="off" v-model="passwordChange.password1" size="small"></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码" :label-width="formLabelWidth" prop="password2" style="margin-right:30px" disabled>
+              <el-input autocomplete="off" v-model="passwordChange.password2" size="small"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="showPasswordChange = false" size="small">取 消</el-button>
+            <el-button type="primary" @click="changePassword('passwordChange')" size="small">确 定</el-button>
+          </div>
+        </el-dialog>
+      </div>
     </el-header>
     <el-container>
       <el-aside width="150px" >
@@ -62,9 +80,40 @@
 <script>
 export default {
   data(){
+
+    var validateOldPassword = (rule, value, callback) => {
+      if (value !== this.$token.getUser().password) {
+        callback(new Error('密码错误'));
+      } else {
+        callback();
+      }
+    };
+    var validatePassword2 = (rule, value, callback) => {
+      if (value !== this.passwordChange.password1) {
+        callback(new Error('两次输入密码不一致'));
+      } else {
+        callback();
+      }
+    };
     return {
       admin: {},
       isLogin: false,
+      showPasswordChange: false,
+      formLabelWidth: '80px',
+      passwordChange: {},
+      rules: {
+        oldPassword: [
+          {required: true, message: '请输入密码', trigger: 'blur'},
+          {validator: validateOldPassword, trigger: 'blur'}
+        ],
+        password1: [
+          {required: true, message: '请输入新密码', trigger: 'blur'}
+        ],
+        password2: [
+          {required: true, message: '确认新密码', trigger: 'blur'},
+          {validator: validatePassword2, trigger: 'blur'}
+        ]
+      }
     }
   },
   mounted() {
@@ -77,11 +126,42 @@ export default {
     initData() {
       this.isLogin = this.$token.isLogin();
       if (this.isLogin) {
-        console.log(this.$token.getUser());
         this.admin = this.$token.getUser();
       }else{
         this.$router.push({name: 'Login'})
       }
+    },
+    showMessage(message,type="error") {
+      this.$notify({
+        title: "提示",
+        message: message,
+        position: 'bottom-right',
+        type: type,
+        // 弹窗停留时间
+        duration: 1000
+      });
+    },
+    changePassword(passwordChange) {
+      this.$refs[passwordChange].validate((valid) => {
+        if (valid) {
+          let admin = this.$token.getUser();
+          admin.password = this.passwordChange.password1;
+          this.axios.patch("admin", admin)
+          .then(
+            res=>{
+              this.showPasswordChange = false;
+              this.showMessage(res.data.message, res.data.code);
+              this.$token.setUser(admin);
+            },
+            error=>{
+              this.showPasswordChange = false;
+              this.showMessage("服务器未启动");
+            }
+          );
+        } else {
+          return
+        }
+      })
     },
     handleCommand(command) {
       switch (command) {
@@ -95,10 +175,10 @@ export default {
           break;
         }
         case 'personal-detail': {
-          this.$router.push({ name: 'Profile' });
           break;
         }
         case 'password-change': {
+          this.passwordChange = {}
           this.showPasswordChange = true;
           break;
         }

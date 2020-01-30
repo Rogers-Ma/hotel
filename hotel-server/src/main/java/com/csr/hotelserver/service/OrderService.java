@@ -47,14 +47,13 @@ public class OrderService implements ServiceTemplate<Order, Long, OrderRepositor
                     list.add(criteriaBuilder.equal(root.get("state").as(Integer.class), state));
                 }
             } catch (Exception e) {
-                System.err.println(e.getMessage());
+//                System.err.println(e.getMessage());
             }
 
             Long customerId = conditions.containsKey("customerId") ? (Long) conditions.get("customerId") : null;
             if(customerId != null){
                 list.add(criteriaBuilder.equal(root.get("customerId").as(Long.class), customerId));
             }
-
 
             String realName = conditions.containsKey("realName") ? (String) conditions.get("realName") : null;
             if (realName != null && !"".equals(realName)) {

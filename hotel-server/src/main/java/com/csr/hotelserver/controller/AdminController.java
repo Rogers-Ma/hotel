@@ -26,4 +26,10 @@ public class AdminController {
     public Object Logout(){
         return ResultUtil.ok();
     }
+
+    @RequestMapping(value = "admin", method = RequestMethod.PATCH)
+    public Object update(@RequestBody Admin admin){
+        this.adminService.update(admin);
+        return ResultUtil.ok("密码修改成功");
+    }
 }

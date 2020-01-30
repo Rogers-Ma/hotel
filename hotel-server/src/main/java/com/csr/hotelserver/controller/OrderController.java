@@ -77,4 +77,12 @@ public class OrderController {
         conditions.put("customerId", customerId);
         return ResultUtil.ok(this.orderService.findAll(conditions));
     }
+
+
+    @RequestMapping(value = "order", method = RequestMethod.PATCH)
+    public Object cancelOrder(@RequestBody Order order){
+        order.setState(3);
+        this.orderService.update(order);
+        return ResultUtil.ok("订单已取消");
+    }
 }

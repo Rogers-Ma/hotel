@@ -71,4 +71,10 @@ public class CustomerController {
             return ResultUtil.ok(admin);
         }
     }
+
+    @RequestMapping(value = "customer", method = RequestMethod.PATCH)
+    public Object update(@RequestBody Customer customer){
+        this.customerService.update(customer);
+        return ResultUtil.ok("操作成功");
+    }
 }
