@@ -1,7 +1,6 @@
-
 const cache = {
-  token: null,
-  user: null
+  customer: null,
+  admin: null,
 };
 
 
@@ -15,49 +14,56 @@ export const isEmpty = function (obj) {
   return false;
 };
 
-export const getToken = function () {
-  if (cache.token === null) {
-    cache.token = localStorage.getItem('$token');
-  }
-  return cache.token;
-};
-
-export const setToken = function (token) {
-  cache.token = token;
-  localStorage.setItem('$token', cache.token);
-};
-
-export const getUser = function () {
-  if (cache.user === null) {
-    const user = localStorage.getItem('$user');
-    if (!isEmpty(user)) {
-      cache.user = JSON.parse(user);
+export const getCustomer = function () {
+  if (cache.customer === null) {
+    const customer = localStorage.getItem('$customer');
+    if (!isEmpty(customer)) {
+      cache.customer = JSON.parse(customer);
     }
   }
-  return cache.user;
+  return cache.customer;
 };
 
-export const setUser = function (user) {
-  cache.user = user;
-  localStorage.setItem('$user', JSON.stringify(user));
+export const setCustomer = function (customer) {
+  cache.customer = customer;
+  localStorage.setItem('$customer', JSON.stringify(customer));
 };
 
+export const getAdmin = function () {
+  if (cache.admin === null) {
+    const admin = localStorage.getItem('$admin');
+    if (!isEmpty(admin)) {
+      cache.admin = JSON.parse(admin);
+    }
+  }
+  return cache.admin;
+};
 
+export const setAdmin = function (admin) {
+  cache.admin = admin;
+  localStorage.setItem('$admin', JSON.stringify(admin));
+};
 
 
 export default {
-  // parseToken,
-  // getTokenBody,
-  getToken,
-  setToken,
-  getUser,
-  setUser,
-
-  isLogin() {
-    return !isEmpty(getToken()) && !isEmpty(getUser());
+  getAdmin,
+  setAdmin,
+  getCustomer,
+  setCustomer,
+  isEmpty,
+  isCustomerLogin() {
+    return !isEmpty(getCustomer());
   },
-  logout() {
-    setToken(null);
-    setUser(null);
+
+  isAdminLogin() {
+    return !isEmpty(getAdmin());
+  },
+
+  customerLogout() {
+    setCustomer(null);
+  },
+
+  adminLogout() {
+    setAdmin(null);
   }
 };

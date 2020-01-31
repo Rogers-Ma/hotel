@@ -60,8 +60,8 @@ public class OrderController {
     @RequestMapping(value = "order", method = RequestMethod.POST)
     public Object createOrder(@RequestParam(name = "typeId") Long typeId,
                               @RequestParam(name = "customerId") Long customerId,
-                              @RequestParam(name = "date[0]") String date0,
-                              @RequestParam(name = "date[1]") String date1) throws MyException {
+                              @RequestParam(name = "date1") String date0,
+                              @RequestParam(name = "date2") String date1) throws MyException {
 
         try{
             this.orderService.createOrder(typeId,customerId,date0,date1);
@@ -81,8 +81,7 @@ public class OrderController {
 
     @RequestMapping(value = "order", method = RequestMethod.PATCH)
     public Object cancelOrder(@RequestBody Order order){
-        order.setState(3);
-        this.orderService.update(order);
+        this.orderService.cancel(order);
         return ResultUtil.ok("订单已取消");
     }
 }

@@ -4,9 +4,9 @@
     <el-header style="font-size: 15px">
       <span style="float: left; font-size: 20px"><b>酒店后台管理</b></span>
       
-      <el-dropdown v-if="isLogin" @command="handleCommand" style="float: right">
+      <el-dropdown @command="handleCommand" style="float: right">
         <span >
-          {{"你好：" + admin.name}}
+          {{$token.getAdmin().name}}
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="password-change"><a>修改密码</a></el-dropdown-item>
@@ -82,7 +82,7 @@ export default {
   data(){
 
     var validateOldPassword = (rule, value, callback) => {
-      if (value !== this.$token.getUser().password) {
+      if (value !== this.$token.getAdmin().password) {
         callback(new Error('密码错误'));
       } else {
         callback();
@@ -124,10 +124,7 @@ export default {
   },
   methods: {
     initData() {
-      this.isLogin = this.$token.isLogin();
       if (this.isLogin) {
-        this.admin = this.$token.getUser();
-      }else{
         this.$router.push({name: 'Login'})
       }
     },
@@ -144,14 +141,14 @@ export default {
     changePassword(passwordChange) {
       this.$refs[passwordChange].validate((valid) => {
         if (valid) {
-          let admin = this.$token.getUser();
+          let admin = this.$token.getAdmin();
           admin.password = this.passwordChange.password1;
           this.axios.patch("admin", admin)
           .then(
             res=>{
               this.showPasswordChange = false;
               this.showMessage(res.data.message, res.data.code);
-              this.$token.setUser(admin);
+              this.$token.setAdmin(admin);
             },
             error=>{
               this.showPasswordChange = false;
@@ -166,7 +163,7 @@ export default {
     handleCommand(command) {
       switch (command) {
         case 'logout': {
-          this.$token.logout();
+          this.$token.adminLogout();
           this.isLogin = false;
           this.user = {};
           this.$router.push({

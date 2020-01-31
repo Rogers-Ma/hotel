@@ -1,36 +1,41 @@
 <template>
   <div>
     <div>
-        <el-row v-for="(item,index) of orderMessage" :gutter="4" :key="index">
-          <el-tag type="success" style="box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); width: 60%; height: 100%">
-              
-              <el-col :span="5">
-                <h1>{{item.room.type.name}}</h1>
-              </el-col>
-              
-              <el-col :span="5" style="text-align: left">
-                <h4>入住日期 : {{item.startDate}}</h4>
-                <h4>退房日期 : {{item.endDate}}</h4>
-              </el-col>
+      <div v-if="orderMessage[0] == null">
+        <h1>暂无订单</h1>
+      </div>
+      <el-row v-for="(item,index) of orderMessage" :gutter="4" :key="index">
+        <el-tag type="success" style="box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); width: 60%; height: 100%">   
+          <el-col :span="5">
+            <h1>{{item.room.type.name}}</h1>
+          </el-col>
+          <el-col :span="5" style="text-align: left">
+            <h4>入住日期 : {{item.startDate}}</h4>
+            <h4>退房日期 : {{item.endDate}}</h4>
+          </el-col>
 
-              <el-col :span="5" style="text-align: left">
-                <h4>消费 : {{item.price}}</h4>
-              </el-col>
+          <el-col :span="5" style="text-align: left">
+            <h4>消费 : {{item.price}}</h4>
+          </el-col>
 
-              <el-col :span="5" style="line-height: 95px">
-                <el-button v-if="item.state === 0" @click="cancelOrder(item)" round>取消订单</el-button>
-                <el-button v-if="item.state === 1" type="info" round disabled>已入住</el-button>
-                <el-button v-if="item.state === 2" type="info" round disabled>已退房</el-button>
-                <el-button v-if="item.state === 3" type="info" round disabled>已取消</el-button>
-              </el-col>
-          </el-tag>
-        </el-row>
+          <el-col :span="5" style="line-height: 95px">
+            <el-button v-if="item.state === 0" @click="cancelOrder(item)" round>取消订单</el-button>
+            <el-button v-if="item.state === 1" type="info" round disabled>已入住</el-button>
+            <el-button v-if="item.state === 2" type="info" round disabled>已退房</el-button>
+            <el-button v-if="item.state === 3" type="info" round disabled>已取消</el-button>
+          </el-col>
+        </el-tag>
+      </el-row>
     </div>
   </div>
 </template>
 
 <script>
+import Search from "@/components/Search"
 export default {
+  components: {
+    Search
+  },
   data(){
     return {
       orderMessage: [],
@@ -41,7 +46,7 @@ export default {
   },
   methods: {
     initData() {
-      this.axios.get("order", {params : {customerId : this.$token.getUser().id}})
+      this.axios.get("order", {params : {customerId : this.$token.getCustomer().id}})
       .then(
         res=>{
           this.orderMessage = res.data.body;
@@ -56,7 +61,7 @@ export default {
       .then(
         res=>{
           this.initData();
-          showMessage(res.data.message, res.data.code);
+          this.showMessage(res.data.message, res.data.code);
         },
         error=>{
           this.showMessage("服务器未启动");

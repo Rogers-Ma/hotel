@@ -125,4 +125,24 @@ public class OrderService implements ServiceTemplate<Order, Long, OrderRepositor
         Order order = new Order(room.getId(), customerId, DateUtil.strToSqlDate(date0), DateUtil.strToSqlDate(date1), prices);
         this.orderRepository.save(order);
     }
+
+    public void cancel(Order order){
+        Customer customer = this.customerService.getOne(order.getCustomerId());
+        Room room = this.roomService.getOne(order.getRoomId());
+        order.setRoom(null);
+        order.setCustomer(null);
+        //退钱
+        Double price = order.getPrice();
+        customer.setBalance(customer.getBalance() + price);
+        customerService.update(customer);
+        System.out.println(customer);
+        //修改房间状态为0（空闲）
+        room.setState(0);
+        roomService.update(room);
+        System.out.println(room);
+        //修改订单状态
+        order.setState(3);
+        System.out.println(order);
+        this.orderRepository.save(order);
+    }
 }
