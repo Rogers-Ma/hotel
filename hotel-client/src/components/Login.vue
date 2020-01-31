@@ -54,8 +54,7 @@ export default {
         .then(
           res => {
             if(res.data.body != null) {
-              this.$token.setToken("customer");
-              this.$token.setUser(res.data.body)
+              this.$token.setCustomer(res.data.body)
               this.$router.push({name: "CustomerMain"})
             }else {
               this.showMessage(res.data.message, res.data.code);
@@ -70,9 +69,8 @@ export default {
         .then(
           res => {
             if(res.data.body != null) {
-              this.$token.setToken("admin");
-              this.$token.setUser(res.data.body)
-              this.$router.push({name: "BackMain"})
+              this.$token.setAdmin(res.data.body);
+              this.$router.push({name: "BackMain"});
             }else {
               this.showMessage(res.data.message, res.data.code);
             }

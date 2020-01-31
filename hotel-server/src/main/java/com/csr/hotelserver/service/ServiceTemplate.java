@@ -7,9 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,17 +26,17 @@ public interface ServiceTemplate<T,M,F extends JpaRepository<T,M> & JpaSpecifica
 
     Specification<T> buildJpaSpecification(Map<String, Object> conditions);
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     default void save(T t) throws MyException {
         getRepository().save(t);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     default void deleteById(M m){
         getRepository().deleteById(m);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     default void update(T t){
         getRepository().save(t);
     }

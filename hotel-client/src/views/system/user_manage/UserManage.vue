@@ -112,9 +112,9 @@ export default {
       delta: 0,
       dialogState:"",
       searchData: {
-          realName: '',
-          name: '',
-          telephone: '',
+        realName: '',
+        name: '',
+        telephone: '',
       },
       pageInfo: {
         pageNo: 1,
