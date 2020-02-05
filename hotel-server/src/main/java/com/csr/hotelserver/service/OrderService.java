@@ -104,7 +104,14 @@ public class OrderService implements ServiceTemplate<Order, Long, OrderRepositor
         Map<String, Object> conditions = new HashMap<>();
         conditions.put("typeId", typeId);
         conditions.put("state", 0);
+
+
         List<Room> rooms = this.roomService.findAll(conditions);
+
+        if(rooms == null || rooms.size() == 0){
+            throw new MyException("房间已满");
+        }
+
         Room room = rooms.get(0);
 
         //用户扣钱环节

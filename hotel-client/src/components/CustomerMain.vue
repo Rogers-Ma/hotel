@@ -3,7 +3,7 @@
     <el-header>
       
       <el-menu
-        :default-active="'home'"
+        :default-active="defaultActive"
         class="el-menu-demo"
         mode="horizontal"
         background-color="#B3C0D1"
@@ -98,6 +98,7 @@ export default {
         }
       };
       return {
+        defaultActive: this.$route.name.toLowerCase(),
         delta: 0,
         isLogin: false,
         showCustomerInfo: false,
@@ -145,7 +146,27 @@ export default {
           this.$router.push({name: 'Login'})
         }
       },
-
+      updateRoute() {
+        if (this.$route === undefined || this.$route === null) {
+          return
+        }
+        if (this.$route.name === 'Home') {
+          if (this.menus.length > 0) {
+            this.defaultActive = this.menus[0].name
+            this.$router.push({ name: this.defaultActive })
+          }
+          return
+        }
+        if (this.$route.matched === undefined || this.$route.matched === null) {
+          return
+        }
+        for (let i = this.$route.matched.length - 1; i >= 0; i--) {
+          if (this.isInMenu(this.$route.matched[i].name) &&
+            this.defaultActive !== this.$route.matched[i].name) {
+            this.defaultActive = this.$route.matched[i].name;
+          }
+        }
+      },
       handleCommand(command) {
         switch (command) {
           case 'logout': {

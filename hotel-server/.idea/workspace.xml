@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e2fcc908-e1cd-435a-9ad9-249c4d184ebd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../hotel-client/hotel-client.zip" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/hotel-client.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/components/BackMain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/components/BackMain.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../hotel-client/src/components/CustomerMain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../hotel-client/src/components/CustomerMain.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/controller/OrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/csr/hotelserver/service/OrderService.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -141,7 +142,11 @@
       <workItem from="1579482119630" duration="2611000" />
       <workItem from="1579571327104" duration="4876000" />
       <workItem from="1580176349801" duration="21591000" />
-      <workItem from="1580433507001" duration="11512000" />
+      <workItem from="1580433507001" duration="11925000" />
+      <workItem from="1580466952100" duration="222000" />
+      <workItem from="1580541325733" duration="961000" />
+      <workItem from="1580695995948" duration="3834000" />
+      <workItem from="1580891463914" duration="34000" />
     </task>
     <servers />
   </component>
