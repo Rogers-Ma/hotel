@@ -38,13 +38,13 @@
         <el-row class="tac">
           <el-col >
             <el-menu
+              :default-active="defaultActive"
               router
               style="text-align: left"
               class="el-menu-vertical-demo"
               background-color="#545c64"
               text-color="#fff"
               active-text-color="#ffd04b"
-              default-active="user-manage"
               >
 
               <el-menu-item index="user-manage">
@@ -96,6 +96,7 @@ export default {
       }
     };
     return {
+      defaultActive: this.getPath(),
       admin: {},
       isLogin: false,
       showPasswordChange: false,
@@ -121,12 +122,16 @@ export default {
   },
   activated(){
     this.initData();
+    console.log(this.getPath())
   },
   methods: {
     initData() {
       if (this.isLogin) {
         this.$router.push({name: 'Login'})
       }
+    },
+    getPath(){
+      return this.$route.path.split('/')[this.$route.path.split('/').length-1]
     },
     showMessage(message,type="error") {
       this.$notify({

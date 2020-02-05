@@ -1,7 +1,10 @@
-*.doc*
+## ide
+**/.idea
+*.iml
 
-vue-element-admin
+## backend
+**/target
+**/logs
 
-*/target
-
-*/node_modules
+## front
+**/*.lock
