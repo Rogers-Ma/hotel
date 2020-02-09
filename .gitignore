@@ -6,5 +6,8 @@
 **/target
 **/logs
 
+
+*.docx
+*.doc
 ## front
 **/*.lock
