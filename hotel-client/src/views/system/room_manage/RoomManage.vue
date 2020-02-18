@@ -4,9 +4,9 @@
     <div style="text-align: center;">
       <el-row :gutter="10">
         <el-col :span="3"><el-input size="small" v-model="searchData.number" placeholder="请输入类型名称"></el-input></el-col>
-        <el-col :span="3"> 
+        <el-col :span="3">
          <el-select v-model="searchData.typeId" placeholder="请选择房间类型" size="small">
-            <el-option 
+            <el-option
               v-for="item in types"
               :key="item.id"
               :label="item.name"
@@ -28,11 +28,11 @@
       </el-row>
       <br>
     </div>
-    
+
     <!-- 表格 -->
     <div>
       <el-table
-        :data="tableData" 
+        :data="tableData"
         border
         width = "800px"
         >
@@ -41,7 +41,7 @@
           label="房间编号"
           width="330%">
         </el-table-column>
-        
+
         <el-table-column
           prop="type.name"
           label="房间类型"
@@ -69,7 +69,7 @@
         </el-table-column>
       </el-table>
     </div>
-   
+
    <!-- 分页 -->
     <div class="block" style="margin-bottom: 0px">
       <el-pagination
@@ -85,11 +85,6 @@
       </el-pagination>
     </div>
 
-  
-  
-  
-  
-  
   <!--弹窗  -->
     <el-dialog title="房间类型信息" width="40%" :visible.sync="dialogFormVisible">
       <el-form :model="formData">
@@ -98,7 +93,7 @@
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth" style="margin-right:30px">
           <el-select v-model="formData.typeId" placeholder="请选择房间类型" size="small">
-            <el-option 
+            <el-option
               v-for="item in types"
               :key="item.id"
               :label="item.name"
@@ -107,7 +102,7 @@
           </el-select>
         </el-form-item>
       </el-form>
-      
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
         <el-button type="primary" @click="submitForm" size="small">确 定</el-button>
@@ -117,44 +112,44 @@
   </div>
 </template>
 
-
 <script>
-import Search from "@/components/Search"
+import Search from '@/components/Search'
 export default {
   components: {
     Search
   },
   data() {
     return {
-      dialogState: "",
+      dialogState: '',
       types: [],
       searchData: {
-          number: "",
-          typeId: "",
+        number: '',
+        typeId: ''
       },
       pageInfo: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 10
       },
       pageSizes: [
-        10,20
+        10, 20
       ],
       countLine: 0,
       formLabelWidth: '80px',
       dialogFormVisible: false,
       formData: {
         number: '',
-        typeId: '',
+        typeId: ''
       },
       tableData: []
     }
   },
+
   mounted() {
     this.refreshTable()
   },
   methods: {
     refreshTable() {
-      this.axios.get("/type-manage")
+      this.axios.get('/type-manage')
       .then(
         response => {
           this.types = response.data.body;
