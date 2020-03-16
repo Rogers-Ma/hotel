@@ -20,7 +20,7 @@
       </el-row>
       <br>
     </div>
-    
+
     <!-- 表格 -->
     <div>
       <el-table
@@ -48,14 +48,13 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button icon="el-icon-search" size="small" circle @click="showDetail(scope.$index)"></el-button>
             <el-button icon="el-icon-edit"   size="small" circle @click="edit(scope.$index)"></el-button>
             <el-button icon="el-icon-delete" size="small" circle @click="deleteById(scope.$index)"></el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-   
+
    <!-- 分页 -->
     <div class="block" style="margin-bottom: 0px">
       <el-pagination
@@ -91,7 +90,7 @@
           </el-row>
         </el-form-item>
       </el-form>
-      
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -101,28 +100,28 @@
   </div>
 </template>
 
-
 <script>
-import Search from "@/components/Search"
+import Search from '@/components/Search'
 export default {
   components: {
     Search
   },
-  data() {
+  data () {
     return {
       delta: 0,
-      dialogState:"",
+      dialogState: '',
       searchData: {
-          realName: '',
-          name: '',
-          telephone: '',
+        realName: '',
+        name: '',
+        telephone: ''
       },
       pageInfo: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 10
       },
       pageSizes: [
-        10,20
+        10,
+        20
       ],
       countLine: 0,
       formLabelWidth: '60px',
@@ -131,46 +130,47 @@ export default {
         name: '',
         realName: '',
         telephone: '',
-        balance: 0.00,
+        balance: 0.00
       },
       tableData: []
     }
   },
-  mounted() {
+  mounted () {
     this.refreshTable()
   },
   methods: {
-    refreshTable() {
-      this.pageInfo.condition = this.searchData;
-      this.axios.get("/customer-manage", {params: this.pageInfo})
-      .then(
-        response => {
-          this.tableData = response.data.body.content;
-          this.countLine = response.data.body.totalElements;
-        },
-        error => {
-          this.showMessage("服务器未启动");
-        }
-      )
+    refreshTable () {
+      this.pageInfo.condition = this.searchData
+      this.axios.get('/customer-manage', {params: this.pageInfo})
+        .then(
+          response => {
+            this.tableData = response.data.body.content
+            this.countLine = response.data.body.totalElements
+          },
+          error => {
+            console.log(error)
+            this.showMessage('服务器未启动')
+          }
+        )
     },
-    add() {
-      this.dialogState = "add";
-      this.dialogFormVisible = true;
+    add () {
+      this.dialogState = 'add'
+      this.dialogFormVisible = true
     },
-    recharge(){
-      this.formData.balance = parseFloat(this.formData.balance) + parseFloat(this.delta);
-      this.delta = 0; 
+    recharge () {
+      this.formData.balance = parseFloat(this.formData.balance) + parseFloat(this.delta)
+      this.delta = 0
     },
-    search() {
-      this.refreshTable();
+    search () {
+      this.refreshTable()
     },
-    reset() {
-      this.searchData.name="";
-      this.searchData.realName="";
-      this.searchData.telephone="";
-      this.refreshTable();
+    reset () {
+      this.searchData.name = ''
+      this.searchData.realName = ''
+      this.searchData.telephone = ''
+      this.refreshTable()
     },
-    showMessage(message,type="error") {
+    showMessage (message, type = 'error') {
       this.$notify({
         title: "提示",
         message: message,
@@ -180,101 +180,88 @@ export default {
         duration: 1000
       });
     },
-    showDetail(index){
-      this.dialogState = "show";
-      this.dialogFormVisible = true;
-      this.formData.name =this.tableData[index].name;
-      this.formData.realName =this.tableData[index].realName;
-      this.formData.telephone =this.tableData[index].telephone;
-      this.formData.balance =this.tableData[index].balance;
+
+    edit (index) {
+      this.dialogState = 'edit'
+      this.formData = this.tableData[index]
+      this.dialogFormVisible = true
     },
-    edit(index){
-      this.dialogState = "edit";
-      this.formData.id =this.tableData[index].id;
-      this.formData.password =this.tableData[index].password;
-      this.formData.name =this.tableData[index].name;
-      this.formData.realName =this.tableData[index].realName;
-      this.formData.telephone =this.tableData[index].telephone;
-      this.formData.balance =this.tableData[index].balance;
-      this.dialogFormVisible = true;
-    },
-    deleteById(index){
-        this.confirmWarning('此操作将永久删除该项, 是否继续?').then(
+    deleteById (index) {
+      this.confirmWarning('此操作将永久删除该项, 是否继续?').then(
         () => {
-          this.axios.delete("/customer-manage", {params:{"id":this.tableData[index].id}})
-          .then(
-            response => {
-              this.refreshTable();
-              this.showMessage(response.data.message,response.data.code);
-            },
-            error => {
-              this.showMessage("删除失败");
-            }
-          );
+          this.axios.delete('/customer-manage', {params: {'id': this.tableData[index].id}})
+            .then(
+              response => {
+                this.refreshTable()
+                this.showMessage(response.data.message, response.data.code)
+              },
+              error => {
+                console.log(error)
+                this.showMessage('删除失败')
+              }
+            )
         }
       )
     },
-    confirmWarning(message) {
+    confirmWarning (message) {
       return this.$confirm(message, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      });
+      })
     },
-    submitForm(){
-      switch (this.dialogState){
-        case "add":
-          this.axios.post("/customer-manage",this.formData)
-          .then(
-            response=>{
-              this.refreshTable();
-              this.showMessage(response.data.message,response.data.code);
-            },
-            error=>{
-              this.showMessage("服务器异常");
-            }
-          );
-          this.dialogFormVisible = false;
-          break;
-        case "edit":
-          this.axios.patch("/customer-manage",this.formData)
-          .then(
-            response=>{
-              this.refreshTable();
-              this.showMessage(response.data.message,response.data.code);
-            },
-            error=>{
-              this.showMessage("修改失败");
-            }
-          );
-          this.dialogFormVisible = false;
-          break;
+    submitForm () {
+      switch (this.dialogState) {
+        case 'add':
+          this.axios.post('/customer-manage', this.formData)
+            .then(
+              response => {
+                this.refreshTable()
+                this.showMessage(response.data.message, response.data.code)
+              },
+              error => {
+                console.log(error)
+                this.showMessage('服务器异常')
+              }
+            )
+          this.dialogFormVisible = false
+          break
+        case 'edit':
+          this.axios.patch('/customer-manage', this.formData)
+            .then(
+              response => {
+                this.refreshTable()
+                this.showMessage(response.data.message, response.data.code)
+              },
+              error => {
+                console.log(error)
+                this.showMessage('修改失败')
+              }
+            )
+          this.dialogFormVisible = false
+          break
       }
     },
-    onPageChange(val) {
-      this.pageTo(val);
-      this.refreshTable();
+    onPageChange (val) {
+      this.pageTo(val)
+      this.refreshTable()
     },
-    onPageSizeChange(val) {
-      this.pageInfo.pageSize = val;
-      this.refreshTable();
+    onPageSizeChange (val) {
+      this.pageInfo.pageSize = val
+      this.refreshTable()
     },
-    pageTo(pageNo) {
-      this.pageInfo.pageNo = pageNo;
-      this.refreshTable();
+    pageTo (pageNo) {
+      this.pageInfo.pageNo = pageNo
+      this.refreshTable()
     },
-    prevClick(pageNo){
-      this.pageNo = pageNo - 1;
-      this.refreshTable();
+    prevClick (pageNo) {
+      this.pageNo = pageNo - 1
+      this.refreshTable()
     },
-    nextClick(pageNo){
-      this.pageNo = pageNo + 1;
-      this.refreshTable();
+    nextClick (pageNo) {
+      this.pageNo = pageNo + 1
+      this.refreshTable()
     }
   }
 }
 </script>
-
-<style>
-
-</style>

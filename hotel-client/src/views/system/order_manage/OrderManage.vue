@@ -3,7 +3,17 @@
     <!-- 搜索框 -->
     <div style="text-align: center;">
       <el-row :gutter="20">
-        <el-col :span="3"><el-input size="small" v-model="searchData.name" placeholder="请输入类型名称"></el-input></el-col>
+        <el-col :span="3"><el-input size="small" v-model="searchData.realName" placeholder="请输入客户姓名"></el-input></el-col>
+        <el-col :span="3">
+          <el-select v-model="searchData.state" placeholder="请选择房间类型" size="small">
+            <el-option
+              v-for="item in states"
+              :key="item.state"
+              :label="item.label"
+              :value="item.state">
+            </el-option>
+          </el-select>
+        </el-col>
         <el-col :span="2"><el-button size="small" type="warning" @click="search">查询</el-button></el-col>
         <el-col :span="1"><el-button size="small" type="warning" @click="reset">重置</el-button></el-col>
       </el-row>
@@ -12,40 +22,32 @@
     <!-- 添加 -->
     <div>
       <br>
-      <el-row :gutter="20">
-        <el-col :span="1.5"><el-button size="small" type="warning" @click="add">添加</el-button></el-col>
-        <el-col :span="1.5"><el-button size="small" type="warning" @click="refreshTable">刷新</el-button></el-col>
-      </el-row>
       <br>
     </div>
-    
+
     <!-- 表格 -->
     <div>
       <el-table
         :data="tableData"
         border>
-        <el-table-column
-          prop="name"
-          label="类型名称"
-          width="430%">
-        </el-table-column>
-        <el-table-column
-          prop="price"
-          label="价格"
-          width="430%">
-        </el-table-column>
-        <el-table-column
-          label="操作"
-          width="430%">
+        <el-table-column prop="customer.realName" label="客户姓名"></el-table-column>
+        <el-table-column prop="customer.telephone" label="手机号"></el-table-column>
+        <el-table-column prop="room.type.name" label="房间类型"></el-table-column>
+        <el-table-column prop="room.number" label="房间号"></el-table-column>
+        <el-table-column prop="startDate" label="入住时间"></el-table-column>
+        <el-table-column prop="endDate" label="退房时间"></el-table-column>
+        <el-table-column prop="price" label="入住费用"></el-table-column>
+        <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button icon="el-icon-search" size="small" circle @click="showDetail(scope.$index)"></el-button>
-            <el-button icon="el-icon-edit"   size="small" circle @click="edit(scope.$index)"></el-button>
-            <el-button icon="el-icon-delete" size="small" circle @click="deleteById(scope.$index)"></el-button>
+            <el-button size="small" v-if="scope.row.state === 0" @click="checkIn(scope.$index)">入住</el-button>
+            <el-button size="small" v-if="scope.row.state === 1" @click="checkOut(scope.$index)">退房</el-button>
+            <el-tag :type="'success'" v-if="scope.row.state === 2" disable-transitions>已退房</el-tag>
+            <el-tag :type="'error'" v-if="scope.row.state === 3" disable-transitions>用户已取消</el-tag>
           </template>
         </el-table-column>
       </el-table>
     </div>
-   
+
    <!-- 分页 -->
     <div class="block" style="margin-bottom: 0px">
       <el-pagination
@@ -71,175 +73,162 @@
           <el-input v-model="formData.price" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
-      
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary">确 定</el-button>
       </div>
     </el-dialog>
 
   </div>
 </template>
 
-
 <script>
-import Search from "@/components/Search"
+import Search from '@/components/Search'
 export default {
   components: {
     Search
   },
-  data() {
+  data () {
     return {
-      dialogState:"",
+      states: [
+        {
+          state: 0,
+          label: '待使用'
+        },
+        {
+          state: 1,
+          label: '已入住'
+        },
+        {
+          state: 2,
+          label: '已退房'
+        },
+        {
+          state: 3,
+          label: '已取消'
+        }
+      ],
       searchData: {
-          name: ""
+        realName: '',
+        state: ''
       },
       pageInfo: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 10
       },
       pageSizes: [
-        10,20
+        10,
+        20
       ],
       countLine: 0,
       formLabelWidth: '80px',
       dialogFormVisible: false,
       formData: {
-        name: '',
         price: '',
-        countRoom: '',
+        countRoom: ''
       },
       tableData: []
     }
   },
-  mounted() {
+  mounted () {
     this.refreshTable()
   },
   methods: {
-    refreshTable() {
-      this.pageInfo.condition = this.searchData;
-      this.axios.get("/order-manage", {params: this.pageInfo})
-      .then(
-        response => {
-          this.tableData = response.data.body.content;
-          this.countLine = response.data.body.totalElements;
-        },
-        error => {
-          this.showMessage("服务器未启动");
-        }
-      )
+    refreshTable () {
+      this.pageInfo.condition = this.searchData
+      this.axios.get('/order-manage', {params: this.pageInfo})
+        .then(
+          response => {
+            this.tableData = response.data.body.content
+            this.countLine = response.data.body.totalElements
+          },
+          error => {
+            console.log(error)
+            this.showMessage('服务器未启动')
+          }
+        )
     },
-    add() {
-      this.dialogState = "add";
-      this.formData.id = "";
-      this.formData.name = "";
-      this.formData.price = "";
-      this.dialogFormVisible = true;
+    add () {
+      this.dialogState = 'add'
+      this.formData.id = ''
+      this.formData.name = ''
+      this.formData.price = ''
+      this.dialogFormVisible = true
     },
-    search() {
-      this.refreshTable();
+    search () {
+      this.refreshTable()
     },
-    reset() {
-      this.searchData.name="";
-      this.searchData.price="";
-      this.refreshTable();
+    reset () {
+      this.searchData.realName = ''
+      this.searchData.state = ''
+      this.refreshTable()
     },
-    showMessage(message,type="error") {
+    checkIn (index) {
+      this.axios.patch('/order-manage', this.tableData[index])
+        .then(
+          response => {
+            this.showMessage(response.data.message, response.data.code)
+            this.refreshTable()
+          },
+          error => {
+            console.log(error)
+            this.showMessage('访问服务器异常')
+          }
+        )
+    },
+    checkOut (index) {
+      console.log(JSON.stringify(this.tableData[index]))
+      this.axios.patch('/order-manage', this.tableData[index])
+        .then(
+          response => {
+            this.showMessage(response.data.message, response.data.code)
+            this.refreshTable()
+          },
+          error => {
+            console.log(error)
+            this.showMessage('访问服务器异常')
+          }
+        )
+    },
+    showMessage (message, type = 'error') {
       this.$notify({
-        title: "提示",
+        title: '提示',
         message: message,
         position: 'bottom-right',
         type: type,
         // 弹窗停留时间
         duration: 1000
-      });
+      })
     },
-    showDetail(index){
-    },
-    edit(index){
-      this.dialogState = "edit";
-      this.formData.id =this.tableData[index].id;
-      this.formData.name =this.tableData[index].name;
-      this.formData.price =this.tableData[index].price;
-      this.dialogFormVisible = true;
-    },
-    deleteById(index){
-        this.confirmWarning('此操作将永久删除该项, 是否继续?').then(
-        () => {
-          this.axios.delete("/order-manage", {params:{"id":this.tableData[index].id}})
-          .then(
-            response => {
-              this.refreshTable();
-              if(response.data.message != "")
-                this.showMessage(response.data.message,response.data.code);
-            },
-            error => {
-              this.showMessage("删除失败");
-            }
-          );
-        }
-      )
-    },
-    confirmWarning(message) {
+
+    confirmWarning (message) {
       return this.$confirm(message, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      });
+      })
     },
-    submitForm(){
-      switch (this.dialogState){
-        case "add":
-          console.log(this.formData);
-          this.axios.post("/order-manage",this.formData)
-          .then(
-            response=>{
-              this.refreshTable();
-              if(response.data.message != "")
-                this.showMessage(response.data.message,response.data.code);
-            },
-            error=>{
-              this.showMessage("服务器异常");
-            }
-          );
-          this.dialogFormVisible = false;
-          break;
-        case "edit":
-          console.log(this.formData);
-          this.axios.patch("/order-manage",this.formData)
-          .then(
-            response=>{
-              this.refreshTable();
-              if(response.data.message != "")
-                this.showMessage(response.data.message,response.data.code);
-            },
-            error=>{
-              this.showMessage("修改失败");
-            }
-          );
-          this.dialogFormVisible = false;
-          break;
-      }
+
+    onPageChange (val) {
+      this.pageTo(val)
+      this.refreshTable()
     },
-    onPageChange(val) {
-      this.pageTo(val);
-      this.refreshTable();
+    onPageSizeChange (val) {
+      this.pageInfo.pageSize = val
+      this.refreshTable()
     },
-    onPageSizeChange(val) {
-      this.pageInfo.pageSize = val;
-      this.refreshTable();
+    pageTo (pageNo) {
+      this.pageInfo.pageNo = pageNo
+      this.refreshTable()
     },
-    pageTo(pageNo) {
-      this.pageInfo.pageNo = pageNo;
-      this.refreshTable();
+    prevClick (pageNo) {
+      this.pageNo = pageNo - 1
+      this.refreshTable()
     },
-    prevClick(pageNo){
-      this.pageNo = pageNo - 1;
-      this.refreshTable();
-    },
-    nextClick(pageNo){
-      this.pageNo = pageNo + 1;
-      this.refreshTable();
+    nextClick (pageNo) {
+      this.pageNo = pageNo + 1
+      this.refreshTable()
     }
   }
 }

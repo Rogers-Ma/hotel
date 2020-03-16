@@ -4,9 +4,9 @@
     <div style="text-align: center;">
       <el-row :gutter="10">
         <el-col :span="3"><el-input size="small" v-model="searchData.number" placeholder="请输入类型名称"></el-input></el-col>
-        <el-col :span="3"> 
+        <el-col :span="3">
          <el-select v-model="searchData.typeId" placeholder="请选择房间类型" size="small">
-            <el-option 
+            <el-option
               v-for="item in types"
               :key="item.id"
               :label="item.name"
@@ -28,11 +28,11 @@
       </el-row>
       <br>
     </div>
-    
+
     <!-- 表格 -->
     <div>
       <el-table
-        :data="tableData" 
+        :data="tableData"
         border
         width = "800px"
         >
@@ -41,7 +41,7 @@
           label="房间编号"
           width="330%">
         </el-table-column>
-        
+
         <el-table-column
           prop="type.name"
           label="房间类型"
@@ -63,14 +63,13 @@
           label="操作"
           width="330%">
           <template slot-scope="scope">
-            <el-button icon="el-icon-search" size="small" circle @click="showDetail(scope.$index)"></el-button>
             <el-button icon="el-icon-edit"   size="small" circle @click="edit(scope.$index)"></el-button>
             <el-button icon="el-icon-delete" size="small" circle @click="deleteById(scope.$index)"></el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-   
+
    <!-- 分页 -->
     <div class="block" style="margin-bottom: 0px">
       <el-pagination
@@ -86,11 +85,6 @@
       </el-pagination>
     </div>
 
-  
-  
-  
-  
-  
   <!--弹窗  -->
     <el-dialog title="房间类型信息" width="40%" :visible.sync="dialogFormVisible">
       <el-form :model="formData">
@@ -99,7 +93,7 @@
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth" style="margin-right:30px">
           <el-select v-model="formData.typeId" placeholder="请选择房间类型" size="small">
-            <el-option 
+            <el-option
               v-for="item in types"
               :key="item.id"
               :label="item.name"
@@ -108,7 +102,7 @@
           </el-select>
         </el-form-item>
       </el-form>
-      
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
         <el-button type="primary" @click="submitForm" size="small">确 定</el-button>
@@ -118,179 +112,184 @@
   </div>
 </template>
 
-
 <script>
-import Search from "@/components/Search"
+import Search from '@/components/Search'
 export default {
   components: {
     Search
   },
-  data() {
+  data () {
     return {
-      dialogState: "",
+      dialogState: '',
       types: [],
       searchData: {
-          number: "",
-          typeId: "",
+        number: '',
+        typeId: ''
       },
       pageInfo: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 10
       },
       pageSizes: [
-        10,20
+        10, 20
       ],
       countLine: 0,
       formLabelWidth: '80px',
       dialogFormVisible: false,
       formData: {
         number: '',
-        typeId: '',
+        typeId: ''
       },
       tableData: []
     }
   },
-  mounted() {
+
+  mounted () {
     this.refreshTable()
   },
   methods: {
-    refreshTable() {
-      this.axios.get("/type-manage")
-      .then(
-        response => {
-          this.types = response.data.body;
-        },
-        error => {
-          this.showMessage("服务器未启动");
-          return;
-        }
-      );
+    refreshTable () {
+      this.axios.get('/type-manage')
+        .then(
+          response => {
+            this.types = response.data.body
+          },
+          error => {
+            console.log(error)
+            this.showMessage('服务器未启动')
+            return null
+          }
+        )
 
-      this.pageInfo.condition = this.searchData;
-      this.axios.get("/room-manage", {params: this.pageInfo})
-      .then(
-        response => {
-          this.tableData = response.data.body.content;
-          this.countLine = response.data.body.totalElements;
-        },
-        error => {
-          this.showMessage("服务器未启动");
-        }
-      );
+      this.pageInfo.condition = this.searchData
+      this.axios.get('/room-manage', {params: this.pageInfo})
+        .then(
+          response => {
+            this.tableData = response.data.body.content
+            this.countLine = response.data.body.totalElements
+          },
+          error => {
+            console.log(error)
+            this.showMessage('服务器未启动')
+          }
+        )
     },
-    add() {
-      this.dialogState = "add";
-      this.formData.id = "";
-      this.formData.number = "";
-      this.formData.typeId = "";
-      this.formData.state = 0;
-      this.dialogFormVisible = true;
+    add () {
+      this.dialogState = 'add'
+      this.formData.id = ''
+      this.formData.number = ''
+      this.formData.typeId = ''
+      this.formData.state = 0
+      this.dialogFormVisible = true
     },
-    search() {
-      this.refreshTable();
+    search () {
+      this.refreshTable()
     },
-    reset() {
-      this.searchData.number="";
-      this.searchData.typeId="";
-      this.refreshTable();
+    reset () {
+      this.searchData.number = ''
+      this.searchData.typeId = ''
+      this.refreshTable()
     },
-    showMessage(message,type="error") {
+    showMessage (message, type = 'error') {
       this.$notify({
-        title: "提示",
+        title: '提示',
         message: message,
         position: 'bottom-right',
         type: type,
         // 弹窗停留时间
         duration: 1000
-      });
+      })
     },
-    showDetail(index){
+    showDetail (index) {
     },
-    edit(index){
-      this.dialogState = "edit";
-      this.formData.id = this.tableData[index].id;
-      this.formData.number = this.tableData[index].number;
-      this.formData.typeId = this.tableData[index].typeId;
-      this.formData.state = this.tableData[index].state;
-      this.dialogFormVisible = true;
+    edit (index) {
+      this.dialogState = 'edit'
+      this.formData = this.tableData[index]
+      this.dialogFormVisible = true
     },
-    deleteById(index){
-        this.confirmWarning('此操作将永久删除该项, 是否继续?').then(
+    deleteById (index) {
+      this.confirmWarning('此操作将永久删除该项, 是否继续?').then(
         () => {
-          this.axios.delete("/room-manage", {params:{"id":this.tableData[index].id}})
-          .then(
-            response => {
-              this.refreshTable();
-              if(response.data.message != "")
-                this.showMessage(response.data.message,response.data.code);
-            },
-            error => {
-              this.showMessage("删除失败");
-            }
-          );
+          this.axios.delete('/room-manage', {params: {'id': this.tableData[index].id}})
+            .then(
+              response => {
+                this.refreshTable()
+                if (response.data.message !== '') {
+                  this.showMessage(response.data.message, response.data.code)
+                }
+              },
+              error => {
+                console.log(error)
+                this.showMessage('删除失败')
+              }
+            )
         }
       )
     },
-    confirmWarning(message) {
+    confirmWarning (message) {
       return this.$confirm(message, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      });
+      })
     },
-    submitForm(){
-      switch (this.dialogState){
-        case "add":
-          console.log(this.formData);
-          this.axios.post("/room-manage",this.formData)
-          .then(
-            response=>{
-              this.refreshTable();
-              if(response.data.message != "")
-                this.showMessage(response.data.message,response.data.code);
-            },
-            error=>{
-              this.showMessage("服务器异常");
-            }
-          );
-          this.dialogFormVisible = false;
-          break;
-        case "edit":
-          console.log(this.formData);
-          this.axios.patch("/room-manage",this.formData)
-          .then(
-            response=>{
-              this.refreshTable();
-              if(response.data.message != "")
-                this.showMessage(response.data.message,response.data.code);
-            },
-            error=>{
-              this.showMessage("修改失败");
-            }
-          );
-          this.dialogFormVisible = false;
-          break;
+    submitForm () {
+      switch (this.dialogState) {
+        case 'add':
+          console.log(this.formData)
+          this.axios.post('/room-manage', this.formData)
+            .then(
+              response => {
+                this.refreshTable()
+                if (response.data.message !== '') {
+                  this.showMessage(response.data.message, response.data.code)
+                }
+              },
+              error => {
+                console.log(error)
+                this.showMessage('服务器异常')
+              }
+            )
+          this.dialogFormVisible = false
+          break
+        case 'edit':
+          console.log(this.formData)
+          this.axios.patch('/room-manage', this.formData)
+            .then(
+              response => {
+                this.refreshTable()
+                if (response.data.message !== '') {
+                  this.showMessage(response.data.message, response.data.code)
+                }
+              },
+              error => {
+                console.log(error)
+                this.showMessage('修改失败')
+              }
+            )
+          this.dialogFormVisible = false
+          break
       }
     },
-    onPageChange(val) {
-      this.pageTo(val);
-      this.refreshTable();
+    onPageChange (val) {
+      this.pageTo(val)
+      this.refreshTable()
     },
-    onPageSizeChange(val) {
-      this.pageInfo.pageSize = val;
-      this.refreshTable();
+    onPageSizeChange (val) {
+      this.pageInfo.pageSize = val
+      this.refreshTable()
     },
-    pageTo(pageNo) {
-      this.pageInfo.pageNo = pageNo;
-      this.refreshTable();
+    pageTo (pageNo) {
+      this.pageInfo.pageNo = pageNo
+      this.refreshTable()
     },
-    prevClick(pageNo){
-      this.pageNo = pageNo - 1;
-      this.refreshTable();
+    prevClick (pageNo) {
+      this.pageNo = pageNo - 1
+      this.refreshTable()
     },
-    nextClick(pageNo){
-      this.pageNo = pageNo + 1;
-      this.refreshTable();
+    nextClick (pageNo) {
+      this.pageNo = pageNo + 1
+      this.refreshTable()
     }
   }
 }

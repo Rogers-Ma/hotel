@@ -1,21 +1,23 @@
 <template>
-  <div id="app">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+  <div id="app" style="width: 100%; height: 100%;" v-cloak>
+    <!-- <transition :name="transitionName"> -->
+      <keep-alive>
+        <router-view />
+      </keep-alive>
+    <!-- </transition> -->
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
-  data() {
+  data () {
     return {
     }
   },
   watch: {
   },
-  mounted() {
+  mounted () {
   },
   methods: {
 

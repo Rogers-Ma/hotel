@@ -4,13 +4,13 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+
 @Data
 @Entity
 @Table(name = "admin")
 public class Admin {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -20,5 +20,5 @@ public class Admin {
 
     @Column(name = "password")
     @NotBlank(message = "密码不能为空")
-    private String passowrd;
+    private String password;
 }
