@@ -6,13 +6,13 @@
         <el-col :span="3"><el-input size="small" v-model="searchData.realName" placeholder="请输入客户姓名"></el-input></el-col>
         <el-col :span="3">
           <el-select v-model="searchData.state" placeholder="请选择房间类型" size="small">
-            <el-option 
+            <el-option
               v-for="item in states"
               :key="item.state"
               :label="item.label"
               :value="item.state">
             </el-option>
-          </el-select> 
+          </el-select>
         </el-col>
         <el-col :span="2"><el-button size="small" type="warning" @click="search">查询</el-button></el-col>
         <el-col :span="1"><el-button size="small" type="warning" @click="reset">重置</el-button></el-col>
@@ -24,7 +24,7 @@
       <br>
       <br>
     </div>
-    
+
     <!-- 表格 -->
     <div>
       <el-table
@@ -47,7 +47,7 @@
         </el-table-column>
       </el-table>
     </div>
-   
+
    <!-- 分页 -->
     <div class="block" style="margin-bottom: 0px">
       <el-pagination
@@ -73,7 +73,7 @@
           <el-input v-model="formData.price" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
-      
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary">确 定</el-button>
@@ -83,149 +83,152 @@
   </div>
 </template>
 
-
 <script>
-import Search from "@/components/Search"
+import Search from '@/components/Search'
 export default {
   components: {
     Search
   },
-  data() {
+  data () {
     return {
       states: [
         {
           state: 0,
-          label: "待使用"
+          label: '待使用'
         },
         {
           state: 1,
-          label: "已入住"
+          label: '已入住'
         },
         {
           state: 2,
-          label: "已退房"
+          label: '已退房'
         },
         {
           state: 3,
-          label: "已取消"
-        },
+          label: '已取消'
+        }
       ],
       searchData: {
-          realName: "",
-          state: ""
+        realName: '',
+        state: ''
       },
       pageInfo: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 10
       },
       pageSizes: [
-        10,20
+        10,
+        20
       ],
       countLine: 0,
       formLabelWidth: '80px',
       dialogFormVisible: false,
       formData: {
         price: '',
-        countRoom: '',
+        countRoom: ''
       },
       tableData: []
     }
   },
-  mounted() {
+  mounted () {
     this.refreshTable()
   },
   methods: {
-    refreshTable() {
-      this.pageInfo.condition = this.searchData;
-      this.axios.get("/order-manage", {params: this.pageInfo})
-      .then(
-        response => {
-          this.tableData = response.data.body.content;
-          this.countLine = response.data.body.totalElements;
-        },
-        error => {
-          this.showMessage("服务器未启动");
-        }
-      )
+    refreshTable () {
+      this.pageInfo.condition = this.searchData
+      this.axios.get('/order-manage', {params: this.pageInfo})
+        .then(
+          response => {
+            this.tableData = response.data.body.content
+            this.countLine = response.data.body.totalElements
+          },
+          error => {
+            console.log(error)
+            this.showMessage('服务器未启动')
+          }
+        )
     },
-    add() {
-      this.dialogState = 'add';
-      this.formData.id = '';
-      this.formData.name = '';
-      this.formData.price = '';
-      this.dialogFormVisible = true;
+    add () {
+      this.dialogState = 'add'
+      this.formData.id = ''
+      this.formData.name = ''
+      this.formData.price = ''
+      this.dialogFormVisible = true
     },
-    search() {
-      this.refreshTable();
+    search () {
+      this.refreshTable()
     },
-    reset() {
-      this.searchData.realName = '';
-      this.searchData.state = '';
-      this.refreshTable();
+    reset () {
+      this.searchData.realName = ''
+      this.searchData.state = ''
+      this.refreshTable()
     },
     checkIn (index) {
-      this.axios.patch("/order-manage", this.tableData[index])
-      .then(
-        response => {
-          this.showMessage(response.data.message,response.data.code);
-          this.refreshTable();
-        },
-        error => {
-          this.showMessage("访问服务器异常");
-        }
-      )
+      this.axios.patch('/order-manage', this.tableData[index])
+        .then(
+          response => {
+            this.showMessage(response.data.message, response.data.code)
+            this.refreshTable()
+          },
+          error => {
+            console.log(error)
+            this.showMessage('访问服务器异常')
+          }
+        )
     },
     checkOut (index) {
       console.log(JSON.stringify(this.tableData[index]))
-      this.axios.patch("/order-manage", this.tableData[index])
-      .then(
-        response => {
-          this.showMessage(response.data.message,response.data.code);
-          this.refreshTable();
-        },
-        error => {
-          this.showMessage("访问服务器异常");
-        }
-      )
+      this.axios.patch('/order-manage', this.tableData[index])
+        .then(
+          response => {
+            this.showMessage(response.data.message, response.data.code)
+            this.refreshTable()
+          },
+          error => {
+            console.log(error)
+            this.showMessage('访问服务器异常')
+          }
+        )
     },
-    showMessage(message,type="error") {
+    showMessage (message, type = 'error') {
       this.$notify({
-        title: "提示",
+        title: '提示',
         message: message,
         position: 'bottom-right',
         type: type,
         // 弹窗停留时间
         duration: 1000
-      });
+      })
     },
 
-    confirmWarning(message) {
+    confirmWarning (message) {
       return this.$confirm(message, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      });
+      })
     },
 
-    onPageChange(val) {
-      this.pageTo(val);
-      this.refreshTable();
+    onPageChange (val) {
+      this.pageTo(val)
+      this.refreshTable()
     },
-    onPageSizeChange(val) {
-      this.pageInfo.pageSize = val;
-      this.refreshTable();
+    onPageSizeChange (val) {
+      this.pageInfo.pageSize = val
+      this.refreshTable()
     },
-    pageTo(pageNo) {
-      this.pageInfo.pageNo = pageNo;
-      this.refreshTable();
+    pageTo (pageNo) {
+      this.pageInfo.pageNo = pageNo
+      this.refreshTable()
     },
-    prevClick(pageNo){
-      this.pageNo = pageNo - 1;
-      this.refreshTable();
+    prevClick (pageNo) {
+      this.pageNo = pageNo - 1
+      this.refreshTable()
     },
-    nextClick(pageNo){
-      this.pageNo = pageNo + 1;
-      this.refreshTable();
+    nextClick (pageNo) {
+      this.pageNo = pageNo + 1
+      this.refreshTable()
     }
   }
 }

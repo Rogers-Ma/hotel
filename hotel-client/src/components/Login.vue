@@ -2,15 +2,15 @@
   <div class="login-container">
     <el-form :model="loginForm" :rules="rules2"
       status-icon
-      ref="loginForm" 
-      label-position="left" 
-      label-width="0px" 
+      ref="loginForm"
+      label-position="left"
+      label-width="0px"
       class="demo-ruleForm login-page">
         <h3 class="title">系统登录</h3>
         <el-form-item prop="name">
-            <el-input type="text" 
-                v-model="loginForm.name" 
-                auto-complete="off" 
+            <el-input type="text"
+                v-model="loginForm.name"
+                auto-complete="off"
                 placeholder="用户名"
             ></el-input>
         </el-form-item>
@@ -29,70 +29,68 @@
   </div>
 </template>
 
-
 <script>
 
-
 export default {
-  data(){
+  data () {
     return {
       loginForm: {
         name: '',
-        password: '',
+        password: ''
       },
       isAdmin: '1',
       rules2: {
         name: [{required: true, message: '请输入账号', trigger: 'blur'}],
-        password: [{required: true, message: '请输入密码', trigger: 'blur'}],
-      },
+        password: [{required: true, message: '请输入密码', trigger: 'blur'}]
+      }
     }
   },
   methods: {
-    login(){
-      if(this.isAdmin === '1'){
-        this.axios.post("customer-login",this.loginForm)
-        .then(
-          res => {
-            if(res.data.body != null) {
-              this.$token.setCustomer(res.data.body)
-              this.$router.push({name: "CustomerMain"})
-            }else {
-              this.showMessage(res.data.message, res.data.code);
+    login () {
+      if (this.isAdmin === '1') {
+        this.axios.post('customer-login', this.loginForm)
+          .then(
+            res => {
+              if (res.data.body != null) {
+                this.$token.setCustomer(res.data.body)
+                this.$router.push({name: 'CustomerMain'})
+              } else {
+                this.showMessage(res.data.message, res.data.code)
+              }
+            },
+            error => {
+              console.log(error)
             }
-          },
-          error => {
-
-          }
-        )
-      }else if(this.isAdmin === '2'){
-        this.axios.post("admin-login",this.loginForm)
-        .then(
-          res => {
-            if(res.data.body != null) {
-              this.$token.setAdmin(res.data.body);
-              this.$router.push({name: "BackMain"});
-            }else {
-              this.showMessage(res.data.message, res.data.code);
+          )
+      } else if (this.isAdmin === '2') {
+        this.axios.post('admin-login', this.loginForm)
+          .then(
+            res => {
+              if (res.data.body != null) {
+                this.$token.setAdmin(res.data.body)
+                this.$router.push({name: 'BackMain'})
+              } else {
+                this.showMessage(res.data.message, res.data.code)
+              }
+            },
+            error => {
+              console.log(error)
             }
-          },
-          error => {
-
-          }
-        )
+          )
       }
     },
-    showMessage (message,type="error") {
+    showMessage (message, type = 'error') {
       this.$notify({
-        title: "提示",
+        title: '提示',
         message: message,
         position: 'bottom-right',
         type: type,
         // 弹窗停留时间
         duration: 1000
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>

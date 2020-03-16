@@ -38,9 +38,9 @@ export default new Router({
           path: 'order-manage',
           name: 'OrderManage',
           component: OrderManage
-        },
+        }
       ]
-    },    
+    },
     {
       path: '/',
       name: 'Login',
@@ -61,8 +61,8 @@ export default new Router({
           path: 'order',
           name: 'Order',
           component: Order
-        },
+        }
       ]
-    },
+    }
   ]
 })

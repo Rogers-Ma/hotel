@@ -18,10 +18,10 @@
       </el-row>
       <br>
     </div>
-    
+
     <!-- 表格 -->
     <div>
-      <el-table 
+      <el-table
         :data="tableData"
         border>
         <el-table-column
@@ -41,7 +41,7 @@
         </el-table-column>
       </el-table>
     </div>
-   
+
    <!-- 分页 -->
     <div class="block" style="margin-bottom: 0px">
       <el-pagination
@@ -67,8 +67,8 @@
           <el-input v-model="formData.price" autocomplete="off" size="small"></el-input>
         </el-form-item>
       </el-form>
-      
-      <div slot="footer" class="dialog-footer">
+
+  <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
         <el-button type="primary" @click="submitForm" size="small">确 定</el-button>
       </div>
@@ -76,25 +76,25 @@
   </div>
 </template>
 
-
 <script>
-import Search from "@/components/Search"
+import Search from '@/components/Search'
 export default {
   components: {
     Search
   },
-  data() {
+  data () {
     return {
-      dialogState:"",
+      dialogState: '',
       searchData: {
-          name: ""
+        name: ''
       },
       pageInfo: {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 10
       },
       pageSizes: [
-        10,20
+        10,
+        20
       ],
       countLine: 0,
       formLabelWidth: '80px',
@@ -102,16 +102,16 @@ export default {
       formData: {
         name: '',
         price: '',
-        date: '',
+        date: ''
       },
       tableData: []
     }
   },
-  mounted() {
+  mounted () {
     this.refreshTable()
   },
   methods: {
-    refreshTable() {
+    refreshTable () {
       this.pageInfo.condition = this.searchData;
       this.axios.get("/type-manage", {params: this.pageInfo})
       .then(
@@ -124,7 +124,7 @@ export default {
         }
       )
     },
-    add() {
+    add () {
       this.dialogState = "add";
       this.formData.id = "";
       this.formData.name = "";
@@ -132,32 +132,32 @@ export default {
       this.formData.deposit = "";
       this.dialogFormVisible = true;
     },
-    search() {
+    search () {
       this.refreshTable();
     },
-    reset() {
+    reset () {
       this.searchData.name="";
       this.searchData.price="";
       this.refreshTable();
     },
-    showMessage(message,type="error") {
+    showMessage (message, type = 'error') {
       this.$notify({
-        title: "提示",
+        title: '提示',
         message: message,
         position: 'bottom-right',
         type: type,
         // 弹窗停留时间
         duration: 1000
-      });
+      })
     },
-    showDetail(index){
+    showDetail (index) {
     },
-    edit(index){
+    edit (index) {
       this.dialogState = "edit";
       this.formData = this.tableData[index];
       this.dialogFormVisible = true;
     },
-    deleteById(index){
+    deleteById (index) {
         this.confirmWarning('此操作将永久删除该项, 是否继续?').then(
         () => {
           this.axios.delete("/type-manage", {params:{"id":this.tableData[index].id}})
@@ -174,65 +174,69 @@ export default {
         }
       )
     },
-    confirmWarning(message) {
+    confirmWarning (message) {
       return this.$confirm(message, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       });
     },
-    submitForm(){
-      switch (this.dialogState){
-        case "add":
-          this.axios.post("/type-manage",this.formData)
-          .then(
-            response=>{
-              this.refreshTable();
-              if(response.data.message != "")
-                this.showMessage(response.data.message,response.data.code);
-            },
-            error=>{
-              this.showMessage("服务器异常");
-            }
-          );
-          this.dialogFormVisible = false;
-          break;
-        case "edit":
-          console.log(this.formData);
-          this.axios.patch("/type-manage",this.formData)
-          .then(
-            response=>{
-              this.refreshTable();
-              if(response.data.message != "")
-                this.showMessage(response.data.message,response.data.code);
-            },
-            error=>{
-              this.showMessage("修改失败");
-            }
-          );
-          this.dialogFormVisible = false;
-          break;
+    submitForm () {
+      switch (this.dialogState) {
+        case 'add':
+          this.axios.post('/type-manage', this.formData)
+            .then(
+              response => {
+                this.refreshTable()
+                if (response.data.message !== '') {
+                  this.showMessage(response.data.message, response.data.code)
+                }
+              },
+              error => {
+                console.log(error)
+                this.showMessage('服务器异常')
+              }
+            )
+          this.dialogFormVisible = false
+          break
+        case 'edit':
+          console.log(this.formData)
+          this.axios.patch('/type-manage', this.formData)
+            .then(
+              response => {
+                this.refreshTable()
+                if (response.data.message !== '') {
+                  this.showMessage(response.data.message, response.data.code)
+                }
+              },
+              error => {
+                console.log(error)
+                this.showMessage('修改失败')
+              }
+            )
+          this.dialogFormVisible = false
+          break
       }
     },
-    onPageChange(val) {
-      this.pageTo(val);
-      this.refreshTable();
+    onPageChange (val) {
+      this.pageTo(val)
+      this.refreshTable()
     },
-    onPageSizeChange(val) {
-      this.pageInfo.pageSize = val;
-      this.refreshTable();
+    onPageSizeChange (val) {
+      this.pageInfo.pageSize = val
+      this.refreshTable()
     },
-    pageTo(pageNo) {
-      this.pageInfo.pageNo = pageNo;
-      this.refreshTable();
+    pageTo (pageNo) {
+      this.pageInfo.pageNo = pageNo
+      this.refreshTable()
     },
-    prevClick(pageNo){
-      this.pageNo = pageNo - 1;
-      this.refreshTable();
+    prevClick (pageNo) {
+      this.pageNo = pageNo - 1
+      this.refreshTable()
     },
-    nextClick(pageNo){
-      this.pageNo = pageNo + 1;
-      this.refreshTable();
+    nextClick (pageNo) {
+      this.pageNo = pageNo + 1
+      this.refreshTable()
     }
   }
 }

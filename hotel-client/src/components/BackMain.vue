@@ -1,9 +1,8 @@
 <template>
   <el-container style="height: 700px; solid ">
-    
+
     <el-header style="font-size: 15px">
       <span style="float: left; font-size: 20px"><b>酒店后台管理</b></span>
-      
       <el-dropdown @command="handleCommand" style="float: right">
         <span >
           {{$token.getAdmin().name}}
@@ -51,12 +50,11 @@
                 <i class="el-icon-user-solid"></i>
                 <span slot="title">客户管理</span>
               </el-menu-item>
-              
+
               <el-menu-item index="type-manage">
                 <i class="el-icon-s-management"></i>
                 <span>房间分类管理</span>
               </el-menu-item>
-              
               <el-menu-item index="room-manage">
                 <i class="el-icon-s-home"></i>
                 <span slot="title">房间管理</span>
@@ -79,22 +77,21 @@
 
 <script>
 export default {
-  data(){
-
+  data () {
     var validateOldPassword = (rule, value, callback) => {
       if (value !== this.$token.getAdmin().password) {
-        callback(new Error('密码错误'));
+        callback(new Error('密码错误'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     var validatePassword2 = (rule, value, callback) => {
       if (value !== this.passwordChange.password1) {
-        callback(new Error('两次输入密码不一致'));
+        callback(new Error('两次输入密码不一致'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       defaultActive: this.getPath(),
       admin: {},
@@ -117,75 +114,76 @@ export default {
       }
     }
   },
-  mounted() {
-    this.initData();
+  mounted () {
+    this.initData()
   },
-  activated(){
-    this.initData();
+  activated () {
+    this.initData()
     console.log(this.getPath())
   },
   methods: {
-    initData() {
+    initData () {
       if (this.isLogin) {
         this.$router.push({name: 'Login'})
       }
     },
-    getPath(){
-      return this.$route.path.split('/')[this.$route.path.split('/').length-1]
+    getPath () {
+      return this.$route.path.split('/')[this.$route.path.split('/').length - 1]
     },
-    showMessage(message,type="error") {
+    showMessage (message, type = 'error') {
       this.$notify({
-        title: "提示",
+        title: '提示',
         message: message,
         position: 'bottom-right',
         type: type,
         // 弹窗停留时间
         duration: 1000
-      });
+      })
     },
-    changePassword(passwordChange) {
+    changePassword (passwordChange) {
       this.$refs[passwordChange].validate((valid) => {
         if (valid) {
-          let admin = this.$token.getAdmin();
-          admin.password = this.passwordChange.password1;
-          this.axios.patch("admin", admin)
-          .then(
-            res=>{
-              this.showPasswordChange = false;
-              this.showMessage(res.data.message, res.data.code);
-              this.$token.setAdmin(admin);
-            },
-            error=>{
-              this.showPasswordChange = false;
-              this.showMessage("服务器未启动");
-            }
-          );
+          let admin = this.$token.getAdmin()
+          admin.password = this.passwordChange.password1
+          this.axios.patch('admin', admin)
+            .then(
+              res => {
+                this.showPasswordChange = false
+                this.showMessage(res.data.message, res.data.code)
+                this.$token.setAdmin(admin)
+              },
+              error => {
+                console.log(error)
+                this.showPasswordChange = false
+                this.showMessage('服务器未启动')
+              }
+            )
         } else {
-          return
+          return null
         }
       })
     },
-    handleCommand(command) {
+    handleCommand (command) {
       switch (command) {
         case 'logout': {
-          this.$token.adminLogout();
-          this.isLogin = false;
-          this.user = {};
+          this.$token.adminLogout()
+          this.isLogin = false
+          this.user = {}
           this.$router.push({
             name: 'Login'
-          });
-          break;
+          })
+          break
         }
         case 'personal-detail': {
-          break;
+          break
         }
         case 'password-change': {
           this.passwordChange = {}
-          this.showPasswordChange = true;
-          break;
+          this.showPasswordChange = true
+          break
         }
       }
-    },
+    }
   }
 }
 </script>
@@ -197,7 +195,7 @@ export default {
     color: #333;
     line-height: 60px;
   }
-  
+
   .el-aside {
     background-color: #B3C0D1;
     color: #333;

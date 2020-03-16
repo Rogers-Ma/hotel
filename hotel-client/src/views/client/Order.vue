@@ -5,7 +5,7 @@
         <h1>暂无订单</h1>
       </div>
       <el-row v-for="(item,index) of orderMessage" :gutter="4" :key="index">
-        <el-tag type="success" style="box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); width: 60%; height: 100%">   
+        <el-tag type="success" style="box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); width: 60%; height: 100%">
           <el-col :span="5">
             <h1>{{item.room.type.name}}</h1>
           </el-col>
@@ -31,53 +31,55 @@
 </template>
 
 <script>
-import Search from "@/components/Search"
+import Search from '@/components/Search'
 export default {
   components: {
     Search
   },
-  data(){
+  data () {
     return {
-      orderMessage: [],
+      orderMessage: []
     }
   },
-  mounted() {
-    this.initData();
+  mounted () {
+    this.initData()
   },
   methods: {
-    initData() {
-      this.axios.get("order", {params : {customerId : this.$token.getCustomer().id}})
-      .then(
-        res=>{
-          this.orderMessage = res.data.body;
-        },
-        error=>{
-          this.showMessage("服务器启动异常");
-        }
-      )
+    initData () {
+      this.axios.get('order', { params: { customerId: this.$token.getCustomer().id } })
+        .then(
+          res => {
+            this.orderMessage = res.data.body
+          },
+          error => {
+            console.log(error)
+            this.showMessage('服务器启动异常')
+          }
+        )
     },
-    cancelOrder(item){
-      this.axios.patch("order", item)
-      .then(
-        res=>{
-          this.initData();
-          this.showMessage(res.data.message, res.data.code);
-        },
-        error=>{
-          this.showMessage("服务器未启动");
-        }
-      )
+    cancelOrder (item) {
+      this.axios.patch('order', item)
+        .then(
+          res => {
+            this.initData()
+            this.showMessage(res.data.message, res.data.code);
+          },
+          error => {
+            console.log(error)
+            this.showMessage('服务器未启动')
+          }
+        )
     },
-    showMessage(message, type="error") {
+    showMessage (message, type = 'error') {
       this.$notify({
-        title: "提示",
+        title: '提示',
         message: message,
         position: 'bottom-right',
         type: type,
         // 弹窗停留时间
         duration: 1000
-      });
-    },
+      })
+    }
   }
 }
 </script>
