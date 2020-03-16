@@ -48,20 +48,20 @@
 
 <script>
 export default {
-  data(){
+  data () {
     return {
       pickerOptions0: {
         disabledDate: (time) => {
           if (this.orderInfo.date2 !== '') {
-              return time.getTime() < Date.now() - 1 || time.getTime() >= this.orderInfo.date2;
+            return time.getTime() < Date.now() - 1 || time.getTime() >= this.orderInfo.date2
           } else {
-              return time.getTime() < Date.now();
+            return time.getTime() < Date.now()
           }
         }
       },
       pickerOptions1: {
         disabledDate: (time) => {
-          return time.getTime() <= this.orderInfo.date1 || time.getTime() < Date.now();
+          return time.getTime() <= this.orderInfo.date1 || time.getTime() < Date.now()
         }
       },
       reserveMessage: [],
@@ -70,57 +70,59 @@ export default {
         typeId: '',
         customerId: '',
         date1: '',
-        date2: '',
+        date2: ''
       },
-      formLabelWidth: "80px",
+      formLabelWidth: '80px'
     }
   },
-  mounted() {
-    this.initData();
+  mounted () {
+    this.initData()
   },
   methods: {
-    initData() {
-      this.axios.get("type")
-      .then(
-        res=>{
-          this.reserveMessage = res.data.body;
-        },
-        error=>{
-          this.showMessage("服务器启动异常");
-        }
-      )
+    initData () {
+      this.axios.get('type')
+        .then(
+          res => {
+            this.reserveMessage = res.data.body
+          },
+          error => {
+            console.log(error)
+            this.showMessage('服务器启动异常')
+          }
+        )
     },
 
-    reserve(item) {
+    reserve (item) {
       this.orderInfo.typeId = item.id
       this.orderInfo.customerId = this.$token.getCustomer().id
       this.orderInfo.date1 = ''
       this.orderInfo.date2 = ''
       this.dialogFormVisible = true
     },
-    submitForm() {
-      this.axios.post("/order",this.$qs.stringify(this.orderInfo))
-      .then(
-        res=>{
-          this.initData()
-          this.dialogFormVisible = false
-          this.showMessage(res.data.message, res.data.code)
-        },
-        error=>{
-          this.showMessage("服务器未启动");
-        }
-      )
+    submitForm () {
+      this.axios.post('/order', this.$qs.stringify(this.orderInfo))
+        .then(
+          res => {
+            this.initData()
+            this.dialogFormVisible = false
+            this.showMessage(res.data.message, res.data.code)
+          },
+          error => {
+            console.log(error)
+            this.showMessage('服务器未启动')
+          }
+        )
     },
-    showMessage(message, type="error") {
+    showMessage (message, type = '') {
       this.$notify({
-        title: "提示",
+        title: '提示',
         message: message,
         position: 'bottom-right',
         type: type,
         // 弹窗停留时间
         duration: 1000
-      });
-    },
+      })
+    }
   }
 }
 </script>
