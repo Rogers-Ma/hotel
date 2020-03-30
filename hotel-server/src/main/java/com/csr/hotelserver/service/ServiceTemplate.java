@@ -27,7 +27,7 @@ public interface ServiceTemplate<T,M,F extends JpaRepository<T,M> & JpaSpecifica
     Specification<T> buildJpaSpecification(Map<String, Object> conditions);
 
     @Transactional(rollbackFor = Exception.class)
-    default void save(T t) throws MyException {
+    default void save(T t) {
         getRepository().save(t);
     }
 

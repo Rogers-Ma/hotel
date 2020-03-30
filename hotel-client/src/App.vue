@@ -1,10 +1,8 @@
 <template>
   <div id="app" style="width: 100%; height: 100%;" v-cloak>
-    <!-- <transition :name="transitionName"> -->
       <keep-alive>
         <router-view />
       </keep-alive>
-    <!-- </transition> -->
   </div>
 </template>
 
@@ -14,8 +12,6 @@ export default {
   data () {
     return {
     }
-  },
-  watch: {
   },
   mounted () {
   },

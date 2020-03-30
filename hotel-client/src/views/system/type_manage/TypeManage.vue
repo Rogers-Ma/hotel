@@ -3,7 +3,7 @@
     <!-- 搜索框 -->
     <div style="text-align: center;">
       <el-row :gutter="20">
-        <el-col :span="3"><el-input size="small" v-model="searchData.name" placeholder="请输入类型名称"></el-input></el-col>
+        <el-col :span="3"><el-input size="small" v-model="searchData.name" placeholder="请输入类型名称" @change="search" clearable></el-input></el-col>
         <el-col :span="2"><el-button size="small" type="warning" @click="search">查询</el-button></el-col>
         <el-col :span="1"><el-button size="small" type="warning" @click="reset">重置</el-button></el-col>
       </el-row>
@@ -58,12 +58,12 @@
     </div>
 
   <!--弹窗  -->
-    <el-dialog title="房间类型信息" width="40%" :visible.sync="dialogFormVisible">
-      <el-form :model="formData">
-        <el-form-item label="类型名称" :label-width="formLabelWidth" style="margin-right:30px">
+    <el-dialog title="房间类型信息" width="30%" v-if="dialogFormVisible" :visible.sync="dialogFormVisible">
+      <el-form ref="formData" :rules="rules" :model="formData">
+        <el-form-item prop="name" label="类型名称" :label-width="formLabelWidth" style="margin-right:30px">
           <el-input v-model="formData.name" autocomplete="off" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="价格" :label-width="formLabelWidth" style="margin-right:30px">
+        <el-form-item prop="price" label="价格" :label-width="formLabelWidth" style="margin-right:30px">
           <el-input v-model="formData.price" autocomplete="off" size="small"></el-input>
         </el-form-item>
       </el-form>
@@ -99,10 +99,14 @@ export default {
       countLine: 0,
       formLabelWidth: '80px',
       dialogFormVisible: false,
-      formData: {
-        name: '',
-        price: '',
-        date: ''
+      formData: {},
+      rules: {
+        name: [
+          {required: true, message: '请输入类型名称', trigger: 'blur'}
+        ],
+        price: [
+          {required: true, message: '请输入价格', trigger: 'blur'}
+        ]
       },
       tableData: []
     }
@@ -112,33 +116,31 @@ export default {
   },
   methods: {
     refreshTable () {
-      this.pageInfo.condition = this.searchData;
-      this.axios.get("/type-manage", {params: this.pageInfo})
-      .then(
-        response => {
-          this.tableData = response.data.body.content;
-          this.countLine = response.data.body.totalElements;
-        },
-        error => {
-          this.showMessage("服务器未启动");
-        }
-      )
+      this.pageInfo.condition = this.searchData
+      this.axios.get('/type-manage', {params: this.pageInfo})
+        .then(
+          response => {
+            this.tableData = response.data.body.content
+            this.countLine = response.data.body.totalElements
+          },
+          error => {
+            console.log(error)
+            this.showMessage('服务器未启动')
+          }
+        )
     },
     add () {
-      this.dialogState = "add";
-      this.formData.id = "";
-      this.formData.name = "";
-      this.formData.price = "";
-      this.formData.deposit = "";
-      this.dialogFormVisible = true;
+      this.dialogState = 'add'
+      this.formData = {}
+      this.dialogFormVisible = true
     },
     search () {
-      this.refreshTable();
+      this.refreshTable()
     },
     reset () {
-      this.searchData.name="";
-      this.searchData.price="";
-      this.refreshTable();
+      this.searchData.name = ''
+      this.searchData.price = ''
+      this.refreshTable()
     },
     showMessage (message, type = 'error') {
       this.$notify({
@@ -153,24 +155,26 @@ export default {
     showDetail (index) {
     },
     edit (index) {
-      this.dialogState = "edit";
-      this.formData = this.tableData[index];
-      this.dialogFormVisible = true;
+      this.dialogState = 'edit'
+      this.formData = this.tableData[index]
+      this.dialogFormVisible = true
     },
     deleteById (index) {
-        this.confirmWarning('此操作将永久删除该项, 是否继续?').then(
+      this.confirmWarning('此操作将永久删除该项, 是否继续?').then(
         () => {
-          this.axios.delete("/type-manage", {params:{"id":this.tableData[index].id}})
-          .then(
-            response => {
-              this.refreshTable();
-              if(response.data.message != "")
-                this.showMessage(response.data.message,response.data.code);
-            },
-            error => {
-              this.showMessage("删除失败");
-            }
-          );
+          this.axios.delete('/type-manage', {params: {'id': this.tableData[index].id}})
+            .then(
+              response => {
+                this.refreshTable()
+                if (response.data.message !== '') {
+                  this.showMessage(response.data.message, response.data.code)
+                }
+              },
+              error => {
+                console.log(error)
+                this.showMessage('删除失败')
+              }
+            )
         }
       )
     },
@@ -179,42 +183,49 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      });
+      })
     },
     submitForm () {
       switch (this.dialogState) {
         case 'add':
-          this.axios.post('/type-manage', this.formData)
-            .then(
-              response => {
-                this.refreshTable()
-                if (response.data.message !== '') {
-                  this.showMessage(response.data.message, response.data.code)
-                }
-              },
-              error => {
-                console.log(error)
-                this.showMessage('服务器异常')
-              }
-            )
-          this.dialogFormVisible = false
+          this.$refs.formData.validate((valid) => {
+            if (valid) {
+              this.axios.post('/type-manage', this.formData)
+                .then(
+                  response => {
+                    this.refreshTable()
+                    if (response.data.message !== '') {
+                      this.showMessage(response.data.message, response.data.code)
+                    }
+                  },
+                  error => {
+                    console.log(error)
+                    this.showMessage('服务器异常')
+                  }
+                )
+              this.dialogFormVisible = false
+            }
+          })
           break
         case 'edit':
-          console.log(this.formData)
-          this.axios.patch('/type-manage', this.formData)
-            .then(
-              response => {
-                this.refreshTable()
-                if (response.data.message !== '') {
-                  this.showMessage(response.data.message, response.data.code)
-                }
-              },
-              error => {
-                console.log(error)
-                this.showMessage('修改失败')
-              }
-            )
-          this.dialogFormVisible = false
+          this.$refs.formData.validate((valid) => {
+            if (valid) {
+              this.axios.patch('/type-manage', this.formData)
+                .then(
+                  response => {
+                    this.refreshTable()
+                    if (response.data.message !== '') {
+                      this.showMessage(response.data.message, response.data.code)
+                    }
+                  },
+                  error => {
+                    console.log(error)
+                    this.showMessage('修改失败')
+                  }
+                )
+              this.dialogFormVisible = false
+            }
+          })
           break
       }
     },

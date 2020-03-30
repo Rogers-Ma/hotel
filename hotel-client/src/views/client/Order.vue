@@ -62,7 +62,7 @@ export default {
         .then(
           res => {
             this.initData()
-            this.showMessage(res.data.message, res.data.code);
+            this.showMessage(res.data.message, res.data.code)
           },
           error => {
             console.log(error)

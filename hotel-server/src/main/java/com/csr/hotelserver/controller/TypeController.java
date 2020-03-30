@@ -3,6 +3,7 @@ package com.csr.hotelserver.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.csr.hotelserver.entity.Type;
 import com.csr.hotelserver.service.TypeService;
+import com.csr.hotelserver.util.exception.MyException;
 import com.csr.hotelserver.util.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -35,7 +36,7 @@ public class TypeController {
 
     @RequestMapping(value = "type-manage", method = RequestMethod.PATCH)
     public Object updateCustomer(@RequestBody Type type) throws Exception {
-        this.typeService.update(type);
+            this.typeService.update(type);
         return ResultUtil.ok("修改成功");
     }
 

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long>, JpaSpecificationExecutor<Customer> {
     Customer findByNameAndPassword(String name, String password);
+    Customer findByNameAndDeleted(String name, Integer deleted);
 }

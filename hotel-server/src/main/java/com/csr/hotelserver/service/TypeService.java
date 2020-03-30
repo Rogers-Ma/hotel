@@ -7,6 +7,7 @@ import com.csr.hotelserver.util.exception.MyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
 import javax.persistence.RollbackException;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
@@ -40,9 +41,8 @@ public class TypeService implements ServiceTemplate<Type, Long, TypeRepository> 
                 list.add(criteriaBuilder.equal(root.get("name").as(String.class), name));
             }
 
-            Long typeId = conditions.containsKey("typeId") ?(Long) conditions.get("typeId"):null;
-            if(typeId != null)
-            {
+            Long typeId = conditions.containsKey("typeId") ? (Long) conditions.get("typeId") : null;
+            if (typeId != null) {
                 list.add(criteriaBuilder.equal(root.get("typeId").as(Long.class), typeId));
             }
             criteriaQuery.where(criteriaBuilder.and(list.toArray(new Predicate[0])));
@@ -58,18 +58,18 @@ public class TypeService implements ServiceTemplate<Type, Long, TypeRepository> 
         this.update(type);
     }
 
-    private Long count(Map conditions){
+    private Long count(Map conditions) {
         return this.typeRepository.count(this.buildJpaSpecification(conditions));
     }
 
-    public List getReserveMessage(){
+    public List getReserveMessage() {
         List<Type> types = this.findAll(new HashMap<>());
         List<TypeVO> typeVOS = new ArrayList<>(types.size());
-        for (Type type: types){
-            Map<String,Object> map = new HashMap<>();
-            map.put("typeId",type.getId());
-            map.put("state",0);
-            TypeVO typeVO = new TypeVO(type,this.roomService.count(map));
+        for (Type type : types) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("typeId", type.getId());
+            map.put("state", 0);
+            TypeVO typeVO = new TypeVO(type, this.roomService.count(map));
             typeVOS.add(typeVO);
         }
         return typeVOS;
@@ -77,10 +77,16 @@ public class TypeService implements ServiceTemplate<Type, Long, TypeRepository> 
 
     @Override
     public void save(Type type) throws MyException {
-        Map<String, Object> map = new HashMap<>(1);
-        map.put("name", type.getName());
-        map.put("deleted", 0);
-        if (0 != this.typeRepository.count(buildJpaSpecification(map))) {
+        if (this.typeRepository.findByNameAndDeleted(type.getName(), 0) != null) {
+            throw new MyException("类型名称已存在");
+        }
+        this.typeRepository.save(type);
+    }
+
+    @Override
+    public void update(Type type) {
+        Type oldType = this.typeRepository.findByNameAndDeleted(type.getName(), 0);
+        if (oldType != null && !oldType.getId().equals(type.getId())) {
             throw new MyException("类型名称已存在");
         }
         this.typeRepository.save(type);
