@@ -96,6 +96,19 @@ export default {
         callback()
       }
     }
+    var checkPhone = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('手机号不能为空'))
+      } else {
+        const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
+        console.log(reg.test(value))
+        if (reg.test(value)) {
+          callback()
+        } else {
+          return callback(new Error('请输入正确的手机号'))
+        }
+      }
+    }
     return {
       defaultActive: this.$route.name.toLowerCase(),
       delta: 0,
@@ -125,7 +138,8 @@ export default {
           {required: true, message: '姓名不能为空', trigger: 'blur'}
         ],
         telephone: [
-          {required: true, message: '手机号不能为空', trigger: 'blur'}
+          {required: true, message: '手机号不能为空', trigger: 'blur'},
+          {validator: checkPhone, message: '请输入正确的手机号', trigger: 'blur'}
         ],
         balance: [
           {required: true, message: '余额不能为空', trigger: 'blur'}

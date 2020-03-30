@@ -11,7 +11,6 @@ import javax.persistence.RollbackException;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +31,8 @@ public class RoomService implements ServiceTemplate<Room, Long, RoomRepository> 
             list.add(criteriaBuilder.equal(root.get("deleted").as(Integer.class), 0));
 
             Integer state = conditions.containsKey("state") ? (Integer) conditions.get("state") : null;
-            if(state != null){
-                list.add(criteriaBuilder.equal(root.get("state").as(Integer.class),state));
+            if (state != null) {
+                list.add(criteriaBuilder.equal(root.get("state").as(Integer.class), state));
             }
             String number = conditions.containsKey("number") ? (String) conditions.get("number") : null;
             if (number != null && !"".equals(number)) {
@@ -61,18 +60,24 @@ public class RoomService implements ServiceTemplate<Room, Long, RoomRepository> 
         this.update(room);
     }
 
-    public Long count(Map conditions) {
-        return this.roomRepository.count(this.buildJpaSpecification(conditions));
+    @Override
+    public void save(Room room) {
+        if (this.roomRepository.findByNumberAndDeleted(room.getNumber(), 0) != null) {
+            throw new MyException("房间编号已存在");
+        }
+        this.roomRepository.save(room);
     }
 
     @Override
-    public void save(Room room) throws MyException {
-        Map<String, Object> map = new HashMap<>();
-        map.put("number", room.getNumber());
-        map.put("deleted", 0);
-        if (this.roomRepository.count(buildJpaSpecification(map)) > 0) {
-            throw new MyException("房间号已存在");
+    public void update(Room room) {
+        Room oldRoom = this.roomRepository.findByNumberAndDeleted(room.getNumber(), 0);
+        if (oldRoom != null && !oldRoom.getId().equals(room.getId())) {
+            throw new MyException("房间编号已存在");
         }
         this.roomRepository.save(room);
+    }
+
+    public Long count(Map conditions) {
+        return this.roomRepository.count(this.buildJpaSpecification(conditions));
     }
 }

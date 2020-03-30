@@ -3,9 +3,9 @@
     <!-- 搜索框 -->
     <div style="text-align: center;">
       <el-row :gutter="20">
-        <el-col :span="3"><el-input size="small" v-model="searchData.realName" placeholder="请输入客户姓名"></el-input></el-col>
+        <el-col :span="3"><el-input size="small" v-model="searchData.realName" placeholder="请输入客户姓名" @change="search" clearable></el-input></el-col>
         <el-col :span="3">
-          <el-select v-model="searchData.state" placeholder="请选择房间类型" size="small">
+          <el-select v-model="searchData.state" placeholder="请选择订单状态" size="small" @change="search" clearable>
             <el-option
               v-for="item in states"
               :key="item.state"
@@ -22,6 +22,12 @@
     <!-- 添加 -->
     <div>
       <br>
+      <el-row>
+        <el-col>
+          <el-button type="warning" size="small" @click="showAdd">添加</el-button>
+          <el-button type="warning" size="small" @click="search">刷新</el-button>
+        </el-col>
+      </el-row>
       <br>
     </div>
 
@@ -64,33 +70,91 @@
     </div>
 
   <!--弹窗  -->
-    <el-dialog title="房间类型信息" width="40%" :visible.sync="dialogFormVisible">
-      <el-form :model="formData">
-        <el-form-item label="类型名称" :label-width="formLabelWidth" style="margin-right:30px">
-          <el-input v-model="formData.name" autocomplete="off"></el-input>
+    <el-dialog title="房间类型信息" width="30%" v-if="dialogFormVisible" :visible.sync="dialogFormVisible">
+      <el-form ref="formData" :rules="rules" :model="formData">
+        <el-form-item prop="date1" label="入住日期" :label-width="formLabelWidth" style="margin-right:30px">
+          <el-date-picker
+            v-model="formData.date1"
+            type="date"
+            placeholder="入住日期"
+            :picker-options="pickerOptions0"
+            size="small">
+          </el-date-picker>
         </el-form-item>
-        <el-form-item label="价格" :label-width="formLabelWidth" style="margin-right:30px">
-          <el-input v-model="formData.price" autocomplete="off"></el-input>
+        <el-form-item prop="date2" label="退房日期" :label-width="formLabelWidth" style="margin-right:30px">
+          <el-date-picker
+            v-model="formData.date2"
+            type="date"
+            placeholder="退房日期"
+            :picker-options="pickerOptions1"
+            size="small">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item prop="typeId" label="房间类型" :label-width="formLabelWidth" style="margin-right:30px">
+          <el-select v-model="formData.typeId" placeholder="请选择房间类型" size="small">
+            <el-option
+              v-for="item in types"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+              :disabled="item.count<1"
+              >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="name" label="用户名" :label-width="formLabelWidth" style="margin-right:30px">
+          <el-input v-model="formData.name" autocomplete="off" size="small"></el-input>
         </el-form-item>
       </el-form>
-
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="add" size="small">确定</el-button>
       </div>
     </el-dialog>
-
   </div>
 </template>
 
 <script>
 import Search from '@/components/Search'
 export default {
+
   components: {
     Search
   },
   data () {
+    var validateName = (rule, value, callback) => {
+      this.axios.get('customer-manage', {params: {name: value}})
+        .then(
+          res => {
+            if (res.data.body === null) {
+              callback(new Error('用户名错误'))
+            } else {
+              this.formData.customerId = res.data.body.id
+              callback()
+            }
+          },
+          error => {
+            console.log(error)
+            callback(new Error('用户名错误'))
+          }
+        )
+    }
     return {
+      pickerOptions0: {
+        disabledDate: (time) => {
+          if (this.formData.date2 !== '') {
+            return time.getTime() < Date.now() - 1 || time.getTime() >= this.formData.date2
+          } else {
+            return time.getTime() < Date.now()
+          }
+        }
+      },
+      pickerOptions1: {
+        disabledDate: (time) => {
+          return time.getTime() <= this.formData.date1 || time.getTime() < Date.now()
+        }
+      },
+      types: [],
       states: [
         {
           state: 0,
@@ -109,10 +173,7 @@ export default {
           label: '已取消'
         }
       ],
-      searchData: {
-        realName: '',
-        state: ''
-      },
+      searchData: {},
       pageInfo: {
         pageNo: 1,
         pageSize: 10
@@ -124,9 +185,21 @@ export default {
       countLine: 0,
       formLabelWidth: '80px',
       dialogFormVisible: false,
-      formData: {
-        price: '',
-        countRoom: ''
+      formData: {},
+      rules: {
+        date1: [
+          {required: true, message: '请选择入住日期', trigger: 'blur'}
+        ],
+        date2: [
+          {required: true, message: '请选择退房日期', trigger: 'blur'}
+        ],
+        typeId: [
+          {required: true, message: '请输入房间类型', trigger: 'change'}
+        ],
+        name: [
+          {required: true, message: '请输入用户名', trigger: 'blur'},
+          {validator: validateName, message: '用户名不存在', trigger: 'blur'}
+        ]
       },
       tableData: []
     }
@@ -149,12 +222,44 @@ export default {
           }
         )
     },
-    add () {
+    showAdd () {
       this.dialogState = 'add'
-      this.formData.id = ''
-      this.formData.name = ''
-      this.formData.price = ''
+      this.formData = {}
+      this.setCustomerInfo()
+      this.setTypeInfo()
       this.dialogFormVisible = true
+    },
+    setCustomerInfo () {
+
+    },
+    setTypeInfo () {
+      this.axios.get('type')
+        .then(
+          res => {
+            this.types = res.data.body
+          },
+          error => {
+            console.log(error)
+            this.showMessage('服务器启动异常')
+          }
+        )
+    },
+    add () {
+      this.$refs.formData.validate((valid) => {
+        if (valid) {
+          this.dialogFormVisible = false
+          delete this.formData.name
+          this.axios.post('order', this.$qs.stringify(this.formData)).then(
+            res => {
+              this.showMessage(res.data.message, res.data.code)
+              this.refreshTable()
+            },
+            error => {
+              console.log(error)
+            }
+          )
+        }
+      })
     },
     search () {
       this.refreshTable()

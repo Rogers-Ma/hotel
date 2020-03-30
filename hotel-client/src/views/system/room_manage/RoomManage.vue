@@ -3,9 +3,9 @@
     <!-- 搜索框 -->
     <div style="text-align: center;">
       <el-row :gutter="10">
-        <el-col :span="3"><el-input size="small" v-model="searchData.number" placeholder="请输入类型名称"></el-input></el-col>
+        <el-col :span="3"><el-input size="small" v-model="searchData.number" placeholder="房屋编号" @change="search" clearable></el-input></el-col>
         <el-col :span="3">
-         <el-select v-model="searchData.typeId" placeholder="请选择房间类型" size="small">
+         <el-select v-model="searchData.typeId" placeholder="请选择房间类型" size="small" @change="search" clearable>
             <el-option
               v-for="item in types"
               :key="item.id"
@@ -86,12 +86,12 @@
     </div>
 
   <!--弹窗  -->
-    <el-dialog title="房间类型信息" width="40%" :visible.sync="dialogFormVisible">
-      <el-form :model="formData">
-        <el-form-item label="房间编号" :label-width="formLabelWidth" style="margin-right:30px">
+    <el-dialog title="房间类型信息" width="30%" v-if="dialogFormVisible" :visible.sync="dialogFormVisible">
+      <el-form ref="formData" :rules="rules" :model="formData">
+        <el-form-item prop="number" label="房间编号" :label-width="formLabelWidth" style="margin-right:30px">
           <el-input v-model="formData.number" autocomplete="off" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="类型" :label-width="formLabelWidth" style="margin-right:30px">
+        <el-form-item prop="typeId" label="类型" :label-width="formLabelWidth" style="margin-right:30px">
           <el-select v-model="formData.typeId" placeholder="请选择房间类型" size="small">
             <el-option
               v-for="item in types"
@@ -133,13 +133,18 @@ export default {
       pageSizes: [
         10, 20
       ],
+      rules: {
+        number: [
+          {required: true, message: '请输入房间编号', trigger: 'blur'}
+        ],
+        typeId: [
+          {required: true, message: '请选择房间类型', trigger: 'change'}
+        ]
+      },
       countLine: 0,
       formLabelWidth: '80px',
       dialogFormVisible: false,
-      formData: {
-        number: '',
-        typeId: ''
-      },
+      formData: {},
       tableData: []
     }
   },
@@ -176,9 +181,7 @@ export default {
     },
     add () {
       this.dialogState = 'add'
-      this.formData.id = ''
-      this.formData.number = ''
-      this.formData.typeId = ''
+      this.formData = {}
       this.formData.state = 0
       this.dialogFormVisible = true
     },
@@ -199,8 +202,6 @@ export default {
         // 弹窗停留时间
         duration: 1000
       })
-    },
-    showDetail (index) {
     },
     edit (index) {
       this.dialogState = 'edit'
@@ -236,38 +237,44 @@ export default {
     submitForm () {
       switch (this.dialogState) {
         case 'add':
-          console.log(this.formData)
-          this.axios.post('/room-manage', this.formData)
-            .then(
-              response => {
-                this.refreshTable()
-                if (response.data.message !== '') {
-                  this.showMessage(response.data.message, response.data.code)
-                }
-              },
-              error => {
-                console.log(error)
-                this.showMessage('服务器异常')
-              }
-            )
-          this.dialogFormVisible = false
+          this.$refs.formData.validate((valid) => {
+            if (valid) {
+              this.axios.post('/room-manage', this.formData)
+                .then(
+                  response => {
+                    this.refreshTable()
+                    if (response.data.message !== '') {
+                      this.showMessage(response.data.message, response.data.code)
+                    }
+                  },
+                  error => {
+                    console.log(error)
+                    this.showMessage('服务器异常')
+                  }
+                )
+              this.dialogFormVisible = false
+            }
+          })
           break
         case 'edit':
-          console.log(this.formData)
-          this.axios.patch('/room-manage', this.formData)
-            .then(
-              response => {
-                this.refreshTable()
-                if (response.data.message !== '') {
-                  this.showMessage(response.data.message, response.data.code)
-                }
-              },
-              error => {
-                console.log(error)
-                this.showMessage('修改失败')
-              }
-            )
-          this.dialogFormVisible = false
+          this.$refs.formData.validate((valid) => {
+            if (valid) {
+              this.axios.patch('/room-manage', this.formData)
+                .then(
+                  response => {
+                    this.refreshTable()
+                    if (response.data.message !== '') {
+                      this.showMessage(response.data.message, response.data.code)
+                    }
+                  },
+                  error => {
+                    console.log(error)
+                    this.showMessage('修改失败')
+                  }
+                )
+              this.dialogFormVisible = false
+            }
+          })
           break
       }
     },

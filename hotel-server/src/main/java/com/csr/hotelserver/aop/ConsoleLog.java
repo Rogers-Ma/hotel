@@ -1,7 +1,5 @@
 package com.csr.hotelserver.aop;
 
-
-import com.csr.hotelserver.util.exception.MyException;
 import com.csr.hotelserver.util.result.ResultUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -25,19 +23,12 @@ public class ConsoleLog {
         Object[] objects = proceedingJoinPoint.getArgs();
         System.out.println("访问接口: " + className + "===>" + methodName);
         System.out.println("参   数： " + Arrays.toString(objects));
-
         Object object = null;
         try {
-            object = proceedingJoinPoint.proceed();
+            object = proceedingJoinPoint.proceed(objects);
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
-            if (throwable instanceof MyException){
-                System.err.println(throwable.getMessage());
-                return ResultUtil.error(throwable.getMessage());
-            }else {
-                System.err.println(throwable.getMessage());
-                return ResultUtil.error("服务器未知异常");
-            }
+            System.err.println("错   误： "+throwable.getMessage());
+            return ResultUtil.error(throwable.getMessage());
         }
         return object;
     }

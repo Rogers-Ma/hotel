@@ -3,9 +3,9 @@
     <!-- 搜索框 -->
     <div style="text-align: center;">
       <el-row :gutter="20">
-        <el-col :span="3"><el-input size="small" v-model="searchData.realName" placeholder="请输入客户姓名"></el-input></el-col>
-        <el-col :span="3"><el-input size="small" v-model="searchData.name" placeholder="请输入客户用户名"></el-input></el-col>
-        <el-col :span="3"><el-input size="small" v-model="searchData.telephone" placeholder="请输入客户手机号"></el-input></el-col>
+        <el-col :span="3"><el-input size="small" v-model="searchData.realName" placeholder="请输入客户姓名" clearable></el-input></el-col>
+        <el-col :span="3"><el-input size="small" v-model="searchData.name" placeholder="请输入客户用户名" clearable></el-input></el-col>
+        <el-col :span="3"><el-input size="small" v-model="searchData.telephone" placeholder="请输入客户手机号" clearable></el-input></el-col>
         <el-col :span="2"><el-button size="small" type="warning" @click="search">查询</el-button></el-col>
         <el-col :span="3"><el-button size="small" type="warning" @click="reset">重置</el-button></el-col>
       </el-row>
@@ -71,29 +71,28 @@
     </div>
 
   <!--弹窗  -->
-    <el-dialog title="用户信息" width="40%" :visible.sync="dialogFormVisible">
-      <el-form :model="formData">
-        <el-form-item label="姓名" :label-width="formLabelWidth" style="margin-right:30px">
-          <el-input v-model="formData.realName" autocomplete="off"></el-input>
+    <el-dialog title="用户信息" width="30%" :visible.sync="dialogFormVisible">
+      <el-form ref="formData" :rules="rules" :model="formData">
+        <el-form-item label="姓名" prop="realName" :label-width="formLabelWidth" style="margin-right:30px">
+          <el-input v-model="formData.realName" autocomplete="off" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="用户名" :label-width="formLabelWidth" style="margin-right:30px">
-          <el-input v-model="formData.name" autocomplete="off"></el-input>
+        <el-form-item label="用户名" prop="name" :label-width="formLabelWidth" style="margin-right:30px">
+          <el-input v-model="formData.name" autocomplete="off" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="手机号" :label-width="formLabelWidth" style="margin-right:30px">
-          <el-input v-model="formData.telephone" autocomplete="off"></el-input>
+        <el-form-item label="手机号" prop="telephone" :label-width="formLabelWidth" style="margin-right:30px">
+          <el-input v-model="formData.telephone" autocomplete="off" size="small"></el-input>
         </el-form-item>
         <el-form-item label="余额" :label-width="formLabelWidth" style="margin-right:30px" v-show="dialogState!='add'">
-          <el-row>
-              <el-col :span="4" ><div style="text-align: left;"><span>￥{{formData.balance}}</span></div></el-col>
-              <el-col :span="8"><el-input type="number" placeholder="请输入充值金额" v-model="delta" autocomplete="off"></el-input></el-col>
-              <el-col :span="6"><el-button @click="recharge">充值</el-button></el-col>
+          <el-row :gutter="1">
+              <el-col :span="6" ><div style="text-align: left;"><span>￥{{formData.balance}}</span></div></el-col>
+              <el-col :span="6"><el-input type="number" placeholder="请输入充值金额" v-model="delta" autocomplete="off" size="small"></el-input></el-col>
+              <el-col :span="4"><el-button @click="recharge" size="small">充值</el-button></el-col>
           </el-row>
         </el-form-item>
       </el-form>
-
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="dialogFormVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="submitForm" size="small">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -107,14 +106,23 @@ export default {
     Search
   },
   data () {
+    var checkPhone = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('手机号不能为空'))
+      } else {
+        const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
+        console.log(reg.test(value))
+        if (reg.test(value)) {
+          callback()
+        } else {
+          return callback(new Error('请输入正确的手机号'))
+        }
+      }
+    }
     return {
       delta: 0,
       dialogState: '',
-      searchData: {
-        realName: '',
-        name: '',
-        telephone: ''
-      },
+      searchData: {},
       pageInfo: {
         pageNo: 1,
         pageSize: 10
@@ -124,13 +132,20 @@ export default {
         20
       ],
       countLine: 0,
-      formLabelWidth: '60px',
+      formLabelWidth: '80px',
       dialogFormVisible: false,
-      formData: {
-        name: '',
-        realName: '',
-        telephone: '',
-        balance: 0.00
+      formData: {},
+      rules: {
+        name: [
+          {required: true, message: '请输入用户名', trigger: 'blur'}
+        ],
+        realName: [
+          {required: true, message: '请输入姓名', trigger: 'blur'}
+        ],
+        telephone: [
+          {required: true, message: '请输入手机号码', trigger: 'blur'},
+          {validator: checkPhone, message: '请输入正确的手机号', trigger: 'blur'}
+        ]
       },
       tableData: []
     }
@@ -172,13 +187,13 @@ export default {
     },
     showMessage (message, type = 'error') {
       this.$notify({
-        title: "提示",
+        title: '提示',
         message: message,
         position: 'bottom-right',
         type: type,
         // 弹窗停留时间
         duration: 1000
-      });
+      })
     },
 
     edit (index) {
@@ -213,35 +228,44 @@ export default {
     submitForm () {
       switch (this.dialogState) {
         case 'add':
-          this.axios.post('/customer-manage', this.formData)
-            .then(
-              response => {
-                this.refreshTable()
-                this.showMessage(response.data.message, response.data.code)
-              },
-              error => {
-                console.log(error)
-                this.showMessage('服务器异常')
-              }
-            )
-          this.dialogFormVisible = false
+          this.$refs.formData.validate((valid) => {
+            if (valid) {
+              this.axios.post('/customer-manage', this.formData)
+                .then(
+                  response => {
+                    this.refreshTable()
+                    this.showMessage(response.data.message, response.data.code)
+                  },
+                  error => {
+                    console.log(error)
+                    this.showMessage('服务器异常')
+                  }
+                )
+              this.dialogFormVisible = false
+            }
+          })
           break
         case 'edit':
-          this.axios.patch('/customer-manage', this.formData)
-            .then(
-              response => {
-                this.refreshTable()
-                this.showMessage(response.data.message, response.data.code)
-              },
-              error => {
-                console.log(error)
-                this.showMessage('修改失败')
-              }
-            )
-          this.dialogFormVisible = false
+          this.$refs.formData.validate((valid) => {
+            if (valid) {
+              this.axios.patch('/customer-manage', this.formData)
+                .then(
+                  response => {
+                    this.refreshTable()
+                    this.showMessage(response.data.message, response.data.code)
+                  },
+                  error => {
+                    console.log(error)
+                    this.showMessage('修改失败')
+                  }
+                )
+              this.dialogFormVisible = false
+            }
+          })
           break
       }
     },
+
     onPageChange (val) {
       this.pageTo(val)
       this.refreshTable()

@@ -62,7 +62,6 @@ public class OrderController {
                               @RequestParam(name = "customerId") Long customerId,
                               @RequestParam(name = "date1") String date0,
                               @RequestParam(name = "date2") String date1) throws MyException {
-
         try{
             this.orderService.createOrder(typeId,customerId,date0,date1);
         }catch (MyException e){
@@ -77,7 +76,6 @@ public class OrderController {
         conditions.put("customerId", customerId);
         return ResultUtil.ok(this.orderService.findAll(conditions));
     }
-
 
     @RequestMapping(value = "order", method = RequestMethod.PATCH)
     public Object cancelOrder(@RequestBody Order order){
