@@ -78,6 +78,8 @@
             type="date"
             placeholder="入住日期"
             :picker-options="pickerOptions0"
+            format="yyyy 年 MM 月 dd 日"
+            value-format="yyyy-MM-dd"
             size="small">
           </el-date-picker>
         </el-form-item>
@@ -87,6 +89,8 @@
             type="date"
             placeholder="退房日期"
             :picker-options="pickerOptions1"
+            format="yyyy 年 MM 月 dd 日"
+            value-format="yyyy-MM-dd"
             size="small">
           </el-date-picker>
         </el-form-item>
@@ -117,7 +121,6 @@
 <script>
 import Search from '@/components/Search'
 export default {
-
   components: {
     Search
   },
@@ -142,16 +145,20 @@ export default {
     return {
       pickerOptions0: {
         disabledDate: (time) => {
-          if (this.formData.date2 !== '') {
-            return time.getTime() < Date.now() - 1 || time.getTime() >= this.formData.date2
+          if (this.formData.date2 != null && this.formData.date2 !== '') {
+            return time.getTime() < Date.now() - (24 * 3600 * 1000) || time.getTime() >= new Date(this.formData.date2) - 24 * 3600 * 1000
           } else {
-            return time.getTime() < Date.now()
+            return time.getTime() < Date.now() - 24 * 3600 * 1000
           }
         }
       },
       pickerOptions1: {
         disabledDate: (time) => {
-          return time.getTime() <= this.formData.date1 || time.getTime() < Date.now()
+          if (this.formData.date1 != null && this.formData.date1 !== '') {
+            return time.getTime() <= new Date(this.formData.date1) || time.getTime() < Date.now() - (24 * 3600 * 1000)
+          } else {
+            return time.getTime() < Date.now() - 24 * 3600 * 1000
+          }
         }
       },
       types: [],

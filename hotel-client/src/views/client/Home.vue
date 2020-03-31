@@ -27,12 +27,16 @@
                   v-model="orderInfo.date1"
                   type="date"
                   placeholder="入住日期"
+                  format="yyyy 年 MM 月 dd 日"
+                  value-format="yyyy-MM-dd"
                   :picker-options="pickerOptions0">
             </el-date-picker>
             <el-date-picker
                   v-model="orderInfo.date2"
                   type="date"
                   placeholder="退房日期"
+                  format="yyyy 年 MM 月 dd 日"
+                  value-format="yyyy-MM-dd"
                   :picker-options="pickerOptions1">
             </el-date-picker>
           </div>
@@ -52,16 +56,20 @@ export default {
     return {
       pickerOptions0: {
         disabledDate: (time) => {
-          if (this.orderInfo.date2 !== '') {
-            return time.getTime() < Date.now() - 1 || time.getTime() >= this.orderInfo.date2
+          if (this.orderInfo.date2 != null && this.orderInfo.date2 !== '') {
+            return time.getTime() < Date.now() - (24 * 3600 * 1000) || time.getTime() >= new Date(this.orderInfo.date2) - 24 * 3600 * 1000
           } else {
-            return time.getTime() < Date.now()
+            return time.getTime() < Date.now() - 24 * 3600 * 1000
           }
         }
       },
       pickerOptions1: {
         disabledDate: (time) => {
-          return time.getTime() <= this.orderInfo.date1 || time.getTime() < Date.now()
+          if (this.orderInfo.date1 != null && this.orderInfo.date1 !== '') {
+            return time.getTime() <= new Date(this.orderInfo.date1) || time.getTime() < Date.now() - (24 * 3600 * 1000)
+          } else {
+            return time.getTime() < Date.now() - 24 * 3600 * 1000
+          }
         }
       },
       reserveMessage: [],
