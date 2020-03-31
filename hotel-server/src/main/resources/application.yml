@@ -14,3 +14,6 @@ spring:
   devtools:
     restart:
       enabled: true
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8

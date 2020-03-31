@@ -104,32 +104,24 @@ public class OrderService implements ServiceTemplate<Order, Long, OrderRepositor
         Map<String, Object> conditions = new HashMap<>();
         conditions.put("typeId", typeId);
         conditions.put("state", 0);
-
-
         List<Room> rooms = this.roomService.findAll(conditions);
-
         if(rooms == null || rooms.size() == 0){
             throw new MyException("房间已满");
         }
-
         Room room = rooms.get(0);
-
         //用户扣钱环节
         Double prices = room.getType().getPrice() * DateUtil.getDays(date0, date1);
         Customer customer = this.customerService.getOne(customerId);
         if(customer.getBalance() < prices){
             throw new MyException("余额不足");
         }
-
         //修改房间状态为1（已被预定）
         room.setState(1);
-
         customer.setBalance(customer.getBalance() - prices);
         this.customerService.update(customer);
-
         //修改房间状态
         this.roomService.update(room);
-        Order order = new Order(room.getId(), customerId, DateUtil.strToSqlDate(date0), DateUtil.strToSqlDate(date1), prices);
+        Order order = new Order(room.getId(), customerId, DateUtil.strToUtilDate(date0), DateUtil.strToUtilDate(date1), prices);
         this.orderRepository.save(order);
     }
 
