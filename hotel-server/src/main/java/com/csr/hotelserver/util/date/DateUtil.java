@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 public class DateUtil {
     public static java.sql.Date strToSqlDate(String strDate) {
         String str = strDate;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date d = null;
         try {
             d = format.parse(str);
@@ -18,7 +18,7 @@ public class DateUtil {
 
     public static java.util.Date strToUtilDate(String strDate) {
         String str = strDate;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date = null;
         try {
             date = format.parse(str);
